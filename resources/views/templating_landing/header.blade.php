@@ -18,7 +18,7 @@
       <!-- style css -->
       <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/css/style.css') }}">
       <!-- Responsive-->
-      <link rel="stylesheet" href="css/responsive.css">
+      <link rel="stylesheet" href="{{ asset('landing_page/css/responsive.css') }}">
       <!-- fevicon -->
       <link rel="icon" href="{{ asset('landing_page/images/fevicon.png') }}" type="image/gif" />
       <!-- Scrollbar Custom CSS -->
