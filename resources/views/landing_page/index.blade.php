@@ -20,7 +20,7 @@
       <div class="header_section">
          <div class="container-fluid">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
+               <div class="logo"><a href="index.html"><img src="{{ asset('landing_page/images/logo.png') }}"></a></div>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
                </button>
@@ -51,7 +51,7 @@
                   <form class="form-inline my-2 my-lg-0">
                      <div class="login_text">
                         <ul>
-                           <li><a href="#">Login</a></li>
+                           <li><a href="{{ route('login_page') }}">Login</a></li>
                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                         </ul>
                      </div>
@@ -137,7 +137,7 @@
                <div class="row">
                   <div class="col-lg-3 col-sm-6">
                      <div class="box_main active">
-                        <div class="service_img"><img src="images/icon-1.png"></div>
+                        <div class="service_img"><img src="{{ asset('landing_page/') }}images/icon-1.png"></div>
                         <h4 class="development_text">Construction Services</h4>
                         <p class="services_text">fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using L</p>
                         <div class="readmore_bt"><a href="#">Read More</a></div>
@@ -145,7 +145,7 @@
                   </div>
                   <div class="col-lg-3 col-sm-6">
                      <div class="box_main">
-                        <div class="service_img"><img src="images/icon-2.png"></div>
+                        <div class="service_img"><img src="{{ asset('landing_page/') }}images/icon-2.png"></div>
                         <h4 class="development_text">Building Modeling</h4>
                         <p class="services_text">fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using L</p>
                         <div class="readmore_bt"><a href="#">Read More</a></div>
@@ -153,7 +153,7 @@
                   </div>
                   <div class="col-lg-3 col-sm-6">
                      <div class="box_main">
-                        <div class="service_img"><img src="images/icon-3.png"></div>
+                        <div class="service_img"><img src="{{ asset('landing_page/') }}images/icon-3.png"></div>
                         <h4 class="development_text">Pre construction</h4>
                         <p class="services_text">fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using L</p>
                         <div class="readmore_bt"><a href="#">Read More</a></div>
@@ -161,7 +161,7 @@
                   </div>
                   <div class="col-lg-3 col-sm-6">
                      <div class="box_main">
-                        <div class="service_img"><img src="images/icon-4.png"></div>
+                        <div class="service_img"><img src="{{ asset('landing_page/') }}images/icon-4.png"></div>
                         <h4 class="development_text">Management</h4>
                         <p class="services_text">fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using L</p>
                         <div class="readmore_bt"><a href="#">Read More</a></div>
@@ -184,7 +184,7 @@
                <div class="col-md-6">
                   <div class="about_img">
                      <div class="video_bt">
-                        <div class="play_icon"><img src="images/play-icon.png"></div>
+                        <div class="play_icon"><img src="{{ asset('landing_page/') }}images/play-icon.png"></div>
                      </div>
                   </div>
                </div>
@@ -235,7 +235,7 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-1.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-1.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -249,7 +249,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-2.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-2.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -263,7 +263,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-3.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-3.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -281,7 +281,7 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-1.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-1.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -295,7 +295,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-2.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-2.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -309,7 +309,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-3.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-3.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -327,7 +327,7 @@
                               <div class="row">
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-1.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-1.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -341,7 +341,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-2.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-2.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -355,7 +355,7 @@
                                  </div>
                                  <div class="col-md-4">
                                     <div class="container_main">
-                                       <img src="images/img-3.png" alt="" class="image">
+                                       <img src="{{ asset('landing_page/') }}images/img-3.png" alt="" class="image">
                                        <div class="overlay">
                                           <div class="text">
                                              <h4 class="some_text"><i class="fa fa-link" aria-hidden="true"></i></h4>
@@ -388,26 +388,11 @@
                         <div class="col-md-12">
                            <h1 class="testimonial_taital">Testimonial</h1>
                           <div class="testimonial_section_2">
-                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="images/quick-icon.png"></span></h2>
+                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="{{ asset('landing_page/') }}images/quick-icon.png"></span></h2>
                               <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
                           </div>
                           <div class="testimonial_section_2">
-                              <h2 class="client_name_text"><img src="images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
-                              <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
-                          </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="carousel-item">
-                     <div class="row">
-                        <div class="col-md-12">
-                           <h1 class="testimonial_taital">Testimonial</h1>
-                          <div class="testimonial_section_2">
-                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="images/quick-icon.png"></span></h2>
-                              <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
-                          </div>
-                          <div class="testimonial_section_2">
-                              <h2 class="client_name_text"><img src="images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
+                              <h2 class="client_name_text"><img src="{{ asset('landing_page/') }}images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
                               <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
                           </div>
                         </div>
@@ -418,11 +403,26 @@
                         <div class="col-md-12">
                            <h1 class="testimonial_taital">Testimonial</h1>
                           <div class="testimonial_section_2">
-                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="images/quick-icon.png"></span></h2>
+                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="{{ asset('landing_page/') }}images/quick-icon.png"></span></h2>
                               <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
                           </div>
                           <div class="testimonial_section_2">
-                              <h2 class="client_name_text"><img src="images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
+                              <h2 class="client_name_text"><img src="{{ asset('landing_page/') }}images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
+                              <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
+                          </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="carousel-item">
+                     <div class="row">
+                        <div class="col-md-12">
+                           <h1 class="testimonial_taital">Testimonial</h1>
+                          <div class="testimonial_section_2">
+                              <h2 class="client_name_text">Molik <span style="float: right;"><img src="{{ asset('landing_page/') }}images/quick-icon.png"></span></h2>
+                              <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
+                          </div>
+                          <div class="testimonial_section_2">
+                              <h2 class="client_name_text"><img src="{{ asset('landing_page/') }}images/quick-icon.png"> <span style="float: right;">jeaanson</span></h2>
                               <p class="textimonial_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugia</p>
                           </div>
                         </div>
@@ -463,7 +463,7 @@
                      </form>
                   </div>
                   <div class="col-md-6 padding_left_15">
-                     <div class="contact_img"><img src="images/contact-img.png"></div>
+                     <div class="contact_img"><img src="{{ asset('landing_page/') }}images/contact-img.png"></div>
                   </div>
                </div>
             </div>
@@ -476,81 +476,5 @@
       </div>
       <!-- contact section end -->
       <!-- footer section start -->
-      <div class="footer_section layout_padding">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="location_text">
-                     <ul>
-                        <li>
-                           <a href="#"><span class="padding_15"><i class="fa fa-mobile" aria-hidden="true"></i></span> <br>Call +01 1234567890</a>
-                        </li>
-                        <li class="active">
-                           <a href="#"><span class="padding_15"><i class="fa fa-envelope" aria-hidden="true"></i></span> <br>demo@gmail.com</a>
-                        </li>
-                        <li>
-                           <a href="#"><span class="padding_15"><i class="fa fa-map-marker" aria-hidden="true"></i></span> <br>Location</a>
-                        </li> 
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            <div class="footer_section_2">
-               <div class="row">
-                  <div class="col-md-4">
-                     <h2 class="useful_text">QUICK LINKS</h2>
-                     <div class="footer_menu">
-                        <ul>
-                           <li><a href="index.html">Home</a></li>
-                           <li><a href="about.html">About</a></li>
-                           <li><a href="services.html">Services</a></li>
-                           <li><a href="projects.html">Projects</a></li>
-                           <li><a href="testimonial.html">Testimonial</a></li>
-                           <li><a href="blog.html">Blog</a></li>
-                           <li><a href="contact.html">Contact Us</a></li>
-                        </ul>
-                     </div>
-                  </div>
-                  <div class="col-md-4">
-                     <h2 class="useful_text">Work Portfolio</h2>
-                     <p class="lorem_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem</p>
-                  </div>
-                  <div class="col-md-4">
-                     <h2 class="useful_text">SIGN UP TO OUR NEWSLETTER</h2>
-                     <div class="form-group">
-                        <textarea class="update_mail" placeholder="Enter Your Email" rows="5" id="comment" name="Enter Your Email"></textarea>
-                        <div class="subscribe_bt"><a href="#">Subscribe</a></div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="social_icon">
-               <ul>
-                  <li>
-                     <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                  </li>
-                  <li>
-                     <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                  </li>
-                  <li>
-                     <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                  </li>
-                  <li>
-                     <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <!-- footer section end -->
-      <!-- copyright section start -->
-      <div class="copyright_section">
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-12">
-                  <p class="copyright_text">2019 All Rights Reserved. Design by <a href="https://html.design" rel="nofollow">HTML.DESIGN</a> Distribution by <a href="https://themewagon.com">ThemeWagon</a></p>
-               </div>
-            </div>
-         </div>
-      </div>
+     @include('templating_landing.footer_halaman')
      @include('templating_landing.footer')
