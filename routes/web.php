@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
     Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index'])->middleware('guest');
+    Route::get('/loginAdmin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
+    Route::get('/dashboardAdmin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->middleware('guest');
 
