@@ -161,35 +161,32 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-3">
-									<form>
-										<!-- Input email dengan margin -->
-										<div class="mb-4">
-											<label class="form-label">Email</label>
-											<input class="form-control form-control-lg" name="email" placeholder="Enter your email" />
-										</div>
+									<form action="{{ route('loginn_admin') }}" method="POST">
+                                        @csrf
+                                        <!-- Input email dengan margin -->
+                                        <div class="mb-4">
+                                            <label class="form-label">Email</label>
+                                            <input class="form-control form-control-lg" name="email" placeholder="Enter your email" />
+                                        </div>
 
-										<!-- Input password dengan toggle visibility dan margin -->
-										<div class="mb-4 input-container">
-											<label class="form-label">Password</label>
-											<input class="form-control form-control-lg" name="password" placeholder="Enter your password" autocomplete="off" />
-										</div>
+                                        <!-- Input password dengan toggle visibility dan margin -->
+                                        <div class="mb-4 input-container">
+                                            <label class="form-label">Password</label>
+                                            <input class="form-control form-control-lg" name="password" placeholder="Enter your password" autocomplete="off" />
+                                        </div>
 
-										<!-- Tombol sign-in -->
-										<div class="d-grid gap-2 mt-3">
-											<a href="" class="btn btn-lg btn-primary">Sign in</a>
-										</div>
-
-										<!-- Divider dengan tulisan "or" -->
-										<div class="divider">or Sign In with</div>
-
-										<!-- Tombol sign-in with Google -->
+                                        <!-- Tombol sign-in -->
+                                        <div class="d-grid gap-2 mt-3">
+                                            <button type="submit" class="btn btn-lg btn-primary">Sign in</button>
+                                        </div>
+                                    </form>
+                                    <!-- Tombol sign-in with Google -->
 										<div class="d-grid gap-2 mt-5">
 											<a href="index.html" class="btn btn-google">
 												<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google Logo" width="20">
 												Sign in with Google
 											</a>
 										</div>
-									</form>
 								</div>
 							</div>
 						</div>

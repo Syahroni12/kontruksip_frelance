@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -106,5 +109,35 @@ class AuthController extends Controller
         $umur = $tanggalLahir->age;
 
         return $umur;
+    }
+
+
+
+    // login admin
+
+    public function loginAdmin(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $emailAdmin = $request->input('email');
+        $passwordAdmin = $request->input('password');
+
+        $user = User::where('email', $emailAdmin)->first();
+        // dd($user && $user->password == $passwordAdmin);
+        if ($user && $user->password == $passwordAdmin) {
+            if ($user->akses == 'admin') {
+                Session::put("user", $user);
+                // dd("jfjdf1111");
+                // Auth::login($user);
+                return redirect()->route('show_dashboard_admin');
+            }
+        }
+        return redirect()->back()->withInput($request->only('email'))->withErrors([
+            'email' => 'Invalid credentials',
+        ]);
     }
 }

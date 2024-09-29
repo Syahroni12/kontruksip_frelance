@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.css">
 
     <style>
+
+
+
         body {
             font-family: 'Inter', sans-serif;
         }
@@ -110,7 +113,7 @@
 
                 <ul class="sidebar-nav">
 					<li class="sidebar-header">
-						Pages
+						Main Feature
 					</li>
 
 					<li class="sidebar-item active">
@@ -235,7 +238,9 @@
                                 <span class="text-dark">Charles Hall</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
+
                                 <!-- Profile and settings options -->
+
                                 <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
 								<div class="dropdown-divider"></div>
@@ -243,6 +248,7 @@
 								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">Log out</a>
+
                             </div>
                         </li>
                     </ul>
