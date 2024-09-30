@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerivikasiAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pengguna;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Mail;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class VerfikasiPenyedaJasaAdminController extends Controller
 {
@@ -28,7 +30,7 @@ class VerfikasiPenyedaJasaAdminController extends Controller
         return view('admin.penyedia_jasa.index', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
     }
 
-    public function update(Request $request, $id)
+    public function update_status(Request $request)
     {
         // Validasi input
         $request->validate([
@@ -37,15 +39,16 @@ class VerfikasiPenyedaJasaAdminController extends Controller
         ]);
 
         // Cari user berdasarkan ID
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($request->input('id'));
 
         // Update data status dan akses
         $user->status = $request->input('status');
         $user->akses = $request->input('akses');
         $user->save();
-
+        Mail::to($user->email)->send(new VerivikasiAdmin($user->status));
         // Redirect kembali dengan pesan sukses
-        return redirect()->route('show_penyedia_jasa_admin')->with('success', 'Data penyedia jasa berhasil diperbarui.');
+        Alert::success('Success', 'Berhasil Verivikasi User')->flash();
+        return redirect()->route('show_penyedia_jasa_admin');
     }
 
 
@@ -63,7 +66,7 @@ public function destroy($id)
     $user->delete();
 
     // Redirect dengan pesan sukses
-    return redirect()->route('penyediajasa.index')->with('success', 'Data penyedia jasa berhasil dihapus.');
+    return redirect()->route('show_penyedia_jasa_admin')->with('success', 'Data penyedia jasa berhasil dihapus.');
 }
 
 

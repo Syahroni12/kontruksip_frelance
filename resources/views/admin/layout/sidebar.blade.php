@@ -114,14 +114,15 @@
                         Main Feature
                     </li>
 
-                    <li class="sidebar-item active">
+                    <li class="sidebar-item {{ Route::is('show_dashboard_admin') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('show_dashboard_admin') }}">
                             <i class="align-middle" data-feather="sliders"></i> <span
                                 class="align-middle">Dashboard</span>
                         </a>
                     </li>
 
-                    <li class="sidebar-item">
+
+                    <li class="sidebar-item {{ Route::is('show_penyedia_jasa_admin') ? 'active' : '' }}">
                         <a class="sidebar-link" href="{{ route('show_penyedia_jasa_admin') }}">
                             <i class="align-middle" data-feather="user"></i> <span class="align-middle">Daftar Penyedia
                                 Jasa</span>

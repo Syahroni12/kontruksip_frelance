@@ -161,6 +161,7 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-3">
+									<h1 class="text-center">Login</h1>
 									<form action="{{ route('loginn_admin') }}" method="POST">
                                         @csrf
                                         <!-- Input email dengan margin -->
@@ -177,8 +178,9 @@
 
                                         <!-- Tombol sign-in -->
                                         <div class="d-grid gap-2 mt-3">
-                                            <button type="submit" class="btn btn-lg btn-primary">Sign in</button>
+                                            <button type="submit" class="btn btn-lg btn-primary">Login</button>
                                         </div>
+										<a href="{{ route('register_awal') }}" class="text-right">belum punya akun?registrasi</a>
                                     </form>
                                     <!-- Tombol sign-in with Google -->
 										<div class="d-grid gap-2 mt-5">

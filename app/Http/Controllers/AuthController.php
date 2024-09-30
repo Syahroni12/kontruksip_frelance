@@ -160,4 +160,41 @@ class AuthController extends Controller
         'email' => 'Invalid credentials',
     ]);
 }
+
+public function loginact(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        alert('Gagal', $validator->messages());
+        return redirect()->back()->withInput();
+    }
+
+    $credentials = [
+        "email" => $request->email,
+        "password" => $request->password
+    ];
+    try {
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            Alert::success('Success', 'Login Berhasil di lakukan')->flash();
+            return redirect()->intended('dashboard');
+        } else {
+            Alert::error('Gagal', "email atau password salah");
+            return back();
+        }
+    } catch (\Throwable $th) {
+        //throw $th;
+        alert()->error('Gagal', $th->getMessage());
+        return back();
+        //     alert()->error('Gagal',"nis/nip atau password salah");
+        // return back();
+    }
+}
+
+
 }

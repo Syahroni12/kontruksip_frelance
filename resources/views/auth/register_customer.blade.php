@@ -88,7 +88,7 @@
             </div>
         </div>
     </div>
-    {{-- <script>
+ <script>
         // Toggle password visibility
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
@@ -115,17 +115,17 @@
         });
 
         // Confirm password validation
-        document.querySelector('#registerBtn').addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah pengiriman form secara langsung
+        // document.querySelector('#registerBtn').addEventListener('click', function(event) {
+        //     event.preventDefault(); // Mencegah pengiriman form secara langsung
 
-            if (password.value !== password2.value) {
-                alert('Password dan konfirmasi password tidak cocok!');
-            } else {
-                alert('Pendaftaran berhasil!');
-                // Arahkan ke halaman berikutnya atau lakukan proses lain
-            }
-        });
-    </script> --}}
+        //     if (password.value !== password2.value) {
+        //         alert('Password dan konfirmasi password tidak cocok!');
+        //     } else {
+        //         alert('Pendaftaran berhasil!');
+        //         // Arahkan ke halaman berikutnya atau lakukan proses lain
+        //     }
+        // });
+    </script>
 
 
     @include('templating_admin.footer_js')
