@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -120,4 +124,40 @@ class AuthController extends Controller
 
         return $umur;
     }
+
+
+
+    // login admin
+
+    public function loginAdmin(Request $request)
+{
+    // Validasi input email dan password
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Ambil input dari form
+    $emailAdmin = $request->input('email');
+    $passwordAdmin = $request->input('password');
+
+    // Cari pengguna berdasarkan email
+    $user = User::where('email', $emailAdmin)->first();
+
+    // Periksa apakah user ditemukan dan password cocok menggunakan Hash::check
+    if ($user && Hash::check($passwordAdmin, $user->password)) {
+        // Pastikan user memiliki akses admin
+        if ($user->akses == 'admin') {
+            // Simpan data user di session
+            Session::put("user", $user);
+            // Redirect ke dashboard admin
+            return redirect()->route('show_dashboard_admin');
+        }
+    }
+
+    // Jika login gagal, kembalikan ke halaman sebelumnya dengan pesan error
+    return redirect()->back()->withInput($request->only('email'))->withErrors([
+        'email' => 'Invalid credentials',
+    ]);
+}
 }
