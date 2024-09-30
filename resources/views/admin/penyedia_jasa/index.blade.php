@@ -1,6 +1,6 @@
 @extends('admin.layout.sidebar')
 
-@section('title', 'Mapel')
+@section('title', 'Daftar Penyedia Jasa')
 
 @section('content')
 
@@ -45,9 +45,14 @@
                                 </td>
                                 <td>{{ $p->alamat }}</td>
                                 <td>
-                                    <a href="#" data-toggle="modal" data-target="#fotoModal{{ $p->id }}">
-                                        <img src="{{ asset('storage/' . $p->foto) }}" alt="Foto" width="50" height="50">
+                                    @if ($p->foto)
+                                    <a href="#" data-toggle="modal" data-target="#fotoModal{{ $p->foto }}">
+                                        lihat gambar
                                     </a>
+                                    @else
+                                    Tidak ada gambar
+                                    @endif
+
                                 </td>
                                 <td>{{ $p->tgllahir }}</td>
                                 <td>{{ $p->no_rekening }}</td>
@@ -65,7 +70,7 @@
                                 </td>
                             </tr>
                             <!-- Include the modals here -->
-                            @include('admin.penyedia_jasa.modals', ['p' => $p])
+                            {{-- @include('admin.penyedia_jasa.modals', ['p' => $p]) --}}
                         @endforeach
                     </tbody>
                 </table>

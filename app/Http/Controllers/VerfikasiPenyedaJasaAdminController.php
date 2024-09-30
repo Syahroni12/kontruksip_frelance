@@ -16,35 +16,38 @@ class VerfikasiPenyedaJasaAdminController extends Controller
     }
 
     public function getDataPenyediaJasa(Request $request)
-{
-    // Fetch data using join query
-    $data = DB::table('users')
-        ->join('penggunas', 'penggunas.id_user', '=', 'users.id')
-        ->select('users.email', 'users.akses', 'users.status', 'penggunas.nama', 'penggunas.notelp', 'penggunas.gender', 'penggunas.CV', 'penggunas.alamat', 'penggunas.foto', 'penggunas.tgllahir', 'penggunas.no_rekening', 'penggunas.pendidikan_terakhir')
-        ->where('users.akses', 'penyedia_jasa') // Filter for penyedia_jasa
-        ->get();
+    {
+        // Fetch data using join query
+        $data = DB::table('users')
+            ->join('penggunas', 'penggunas.id_user', '=', 'users.id')
+            ->select('users.id','users.email', 'users.akses', 'users.status', 'penggunas.nama', 'penggunas.notelp', 'penggunas.gender', 'penggunas.CV', 'penggunas.alamat', 'penggunas.foto', 'penggunas.tgllahir', 'penggunas.no_rekening', 'penggunas.pendidikan_terakhir')
+            ->whereIn('users.akses', ['penyedia_jasa', 'customer_penyediajasa']) // Use whereIn for multiple values
+            ->get();
 
-    // Pass data to the view
-    return view('admin.penyedia_jasa.index', ['data' => $data]);
-}
+        // Pass data to the view
+        return view('admin.penyedia_jasa.index', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
+    }
 
-public function update(Request $request, $id)
-{
-    // Validasi data
-    $request->validate([
-        'status' => 'required|in:aman,blokir,sedang_verifikasi',
-        'akses' => 'required|in:customer,penyedia_jasa,customer_penyediajasa',
-    ]);
+    public function update(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'status' => 'required|in:aman,blokir,sedang_verifikasi',
+            'akses' => 'required|in:customer,penyedia_jasa,customer_penyediajasa',
+        ]);
 
-    // Update data penyedia jasa
-    $user = User::findOrFail($id);
-    $user->status = $request->input('status');
-    $user->akses = $request->input('akses');
-    $user->save();
+        // Cari user berdasarkan ID
+        $user = User::findOrFail($id);
 
-    // Redirect dengan pesan sukses
-    return redirect()->route('penyediajasa.index')->with('success', 'Data penyedia jasa berhasil diperbarui.');
-}
+        // Update data status dan akses
+        $user->status = $request->input('status');
+        $user->akses = $request->input('akses');
+        $user->save();
+
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('show_penyedia_jasa_admin')->with('success', 'Data penyedia jasa berhasil diperbarui.');
+    }
+
 
 public function destroy($id)
 {

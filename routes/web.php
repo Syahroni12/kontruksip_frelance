@@ -19,11 +19,12 @@ use Illuminate\Support\Facades\Route;
     Route::get('/register_customer', [App\Http\Controllers\AuthController::class, 'register_customer'])->name('register_customer')->middleware('guest');
     Route::post('/register_customeract', [App\Http\Controllers\AuthController::class, 'daftar_customer'])->name('daftar_customer')->middleware('guest');
     Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login_page')->middleware('guest');
+
     Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
-    Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->middleware('guest')->name('show_dashboard_admin');
+    Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
+    Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
 
     Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
-
     Route::put('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update'])->name('penyediajasa.update');
     Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy');
 
