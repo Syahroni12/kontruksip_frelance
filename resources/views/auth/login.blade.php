@@ -28,10 +28,10 @@
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1">
                   </div>
-                  <a href="{{ route('register_awal') }}" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign Up</a>
+                  <a href="" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign in</a>
                   <div class="d-flex align-items-center justify-content-center">
                     <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
-                    <a class="text-primary fw-bold ms-2" href="./authentication-login.html">Sign In</a>
+                    <a class="text-primary fw-bold ms-2" href="{{ route('register_awal') }}m ">Dafftar</a>
                   </div>
                 </form>
               </div>

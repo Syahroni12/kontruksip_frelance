@@ -63,7 +63,10 @@ class AuthController extends Controller
         // try {
         //code...
 
-        $user = new User(); //membuat objek user
+
+        try {
+            Mail::to($request->email)->send(new AktivasiAkun());
+            $user = new User(); //membuat objek user
         // $user->name = $request->nama;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
@@ -80,11 +83,21 @@ class AuthController extends Controller
 
         $request->file('foto')->move(public_path() . '/foto_profile', $fileName); //mengupload file ke public/produk
         $pengguna->foto = $fileName;
-        $pengguna->save(); //fungsi save untuk menyimpan data ke database di tabel pelanggan
-        Mail::to("$request->email")->send(new AktivasiAkun());
-        Alert::success('Success', 'Berhasil Registrasi silahkan cek email')->flash();
+        $pengguna->save();
+            Alert::success('Success', 'Berhasil Registrasi silahkan cek email')->flash();
         // DB::commit();//fungsi commit untuk menyelesaikan transaksi di database ATAU DI masukkan
         return redirect()->route('register_customer');
+        } catch (\Exception $e) {
+            // Handle the error, for example:
+
+            // return redirect()->back()->withInput();
+            Alert::error('Email tidak valid')->flash();
+            return back()->withInput();
+            
+        }
+         //fungsi save untuk menyimpan data ke database di tabel pelanggan
+       
+        
 
 
 
