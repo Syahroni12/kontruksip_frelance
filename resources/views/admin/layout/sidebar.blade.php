@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
     <meta name="author" content="AdminKit">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -109,88 +110,89 @@
                 <!-- sidebar items -->
 
                 <ul class="sidebar-nav">
-					<li class="sidebar-header">
-						Pages
-					</li>
+                    <li class="sidebar-header">
+                        Main Feature
+                    </li>
 
-					<li class="sidebar-item active">
-						<a class="sidebar-link" href="index.html">
-              <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-            </a>
-					</li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="{{ route('show_dashboard_admin') }}">
+                            <i class="align-middle" data-feather="sliders"></i> <span
+                                class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-profile.html">
-              <i class="align-middle" data-feather="user"></i> <span class="align-middle">Profile</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('show_penyedia_jasa_admin') }}">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Daftar Penyedia
+                                Jasa</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-sign-in.html">
-              <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Sign In</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link">
+                            <i class="align-middle" data-feather="user-x"></i> <span class="align-middle">Penyedia Di
+                                Blokir</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-sign-up.html">
-              <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign Up</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="pages-sign-up.html">
+                            <i class="align-middle" data-feather="user-check"></i> <span class="align-middle">Penyedia
+                                Sudah Diverivikasi</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-blank.html">
-              <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
-            </a>
-					</li>
+                    <li class="sidebar-header">
+                        Tools & Components
+                    </li>
 
-					<li class="sidebar-header">
-						Tools & Components
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="ui-buttons.html">
+                            <i class="align-middle" data-feather="square"></i> <span class="align-middle">Buttons</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-buttons.html">
-              <i class="align-middle" data-feather="square"></i> <span class="align-middle">Buttons</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="ui-forms.html">
+                            <i class="align-middle" data-feather="check-square"></i> <span
+                                class="align-middle">Forms</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-forms.html">
-              <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Forms</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="ui-cards.html">
+                            <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cards</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-cards.html">
-              <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cards</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="ui-typography.html">
+                            <i class="align-middle" data-feather="align-left"></i> <span
+                                class="align-middle">Typography</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-typography.html">
-              <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Typography</span>
-            </a>
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="icons-feather.html">
+                            <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Icons</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="icons-feather.html">
-              <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Icons</span>
-            </a>
-					</li>
+                    <li class="sidebar-header">
+                        Plugins & Addons
+                    </li>
 
-					<li class="sidebar-header">
-						Plugins & Addons
-					</li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="charts-chartjs.html">
+                            <i class="align-middle" data-feather="bar-chart-2"></i> <span
+                                class="align-middle">Charts</span>
+                        </a>
+                    </li>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="charts-chartjs.html">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
-            </a>
-					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="maps-google.html">
-              <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
-            </a>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="maps-google.html">
+                            <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
+                        </a>
                     </li>
                     <!-- Add more sidebar items here -->
                 </ul>
@@ -209,40 +211,53 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown"
+                                data-bs-toggle="dropdown">
                                 <div class="position-relative">
                                     <i class="align-middle" data-feather="bell"></i>
                                     <span class="indicator">4</span>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" aria-labelledby="alertsDropdown">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end"
+                                aria-labelledby="alertsDropdown">
                                 <!-- Notification items -->
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
+                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown"
+                                data-bs-toggle="dropdown">
                                 <div class="position-relative">
                                     <i class="align-middle" data-feather="message-square"></i>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end" aria-labelledby="messagesDropdown">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end"
+                                aria-labelledby="messagesDropdown">
                                 <!-- Message items -->
                             </div>
                         </li>
-                        <li class="nav-item dropdown" >
-                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                <img src="{{ asset('admin_page/img/avatars/avatar.jpg') }}" class="avatar img-fluid rounded me-1" alt="photo profile" />
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+                                data-bs-toggle="dropdown">
+                                <img src="{{ asset('admin_page/img/avatars/avatar.jpg') }}"
+                                    class="avatar img-fluid rounded me-1" alt="photo profile" />
                                 <span class="text-dark">Charles Hall</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
+
                                 <!-- Profile and settings options -->
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
-								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> Analytics</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="index.html"><i class="align-middle me-1" data-feather="settings"></i> Settings & Privacy</a>
-								<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Log out</a>
+
+                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1"
+                                        data-feather="user"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
+                                        data-feather="pie-chart"></i> Analytics</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="index.html"><i class="align-middle me-1"
+                                        data-feather="settings"></i> Settings & Privacy</a>
+                                <a class="dropdown-item" href="#"><i class="align-middle me-1"
+                                        data-feather="help-circle"></i> Help Center</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Log out</a>
+
                             </div>
                         </li>
                     </ul>
