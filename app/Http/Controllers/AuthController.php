@@ -67,7 +67,10 @@ class AuthController extends Controller
         // try {
         //code...
 
-        $user = new User(); //membuat objek user
+
+        try {
+            Mail::to($request->email)->send(new AktivasiAkun());
+            $user = new User(); //membuat objek user
         // $user->name = $request->nama;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
@@ -84,11 +87,21 @@ class AuthController extends Controller
 
         $request->file('foto')->move(public_path() . '/foto_profile', $fileName); //mengupload file ke public/produk
         $pengguna->foto = $fileName;
-        $pengguna->save(); //fungsi save untuk menyimpan data ke database di tabel pelanggan
-        Mail::to("$request->email")->send(new AktivasiAkun());
-        Alert::success('Success', 'Berhasil Registrasi silahkan cek email')->flash();
+        $pengguna->save();
+            Alert::success('Success', 'Berhasil Registrasi silahkan cek email')->flash();
         // DB::commit();//fungsi commit untuk menyelesaikan transaksi di database ATAU DI masukkan
         return redirect()->route('register_customer');
+        } catch (\Exception $e) {
+            // Handle the error, for example:
+
+            // return redirect()->back()->withInput();
+            Alert::error('Email tidak valid')->flash();
+            return back()->withInput();
+            
+        }
+         //fungsi save untuk menyimpan data ke database di tabel pelanggan
+       
+        
 
 
 
@@ -147,4 +160,41 @@ class AuthController extends Controller
         'email' => 'Invalid credentials',
     ]);
 }
+
+public function loginact(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        alert('Gagal', $validator->messages());
+        return redirect()->back()->withInput();
+    }
+
+    $credentials = [
+        "email" => $request->email,
+        "password" => $request->password
+    ];
+    try {
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            Alert::success('Success', 'Login Berhasil di lakukan')->flash();
+            return redirect()->intended('dashboard');
+        } else {
+            Alert::error('Gagal', "email atau password salah");
+            return back();
+        }
+    } catch (\Throwable $th) {
+        //throw $th;
+        alert()->error('Gagal', $th->getMessage());
+        return back();
+        //     alert()->error('Gagal',"nis/nip atau password salah");
+        // return back();
+    }
+}
+
+
 }

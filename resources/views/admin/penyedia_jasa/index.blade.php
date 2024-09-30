@@ -3,7 +3,7 @@
 @section('title', 'Daftar Penyedia Jasa')
 
 @section('content')
-
+@include('sweetalert::alert')
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Penyedia Jasa</h6>
@@ -29,40 +29,44 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($penyediaJasa as $p)
+                        @foreach ($penyediaJasa as $penyedia)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $p->email }}</td>
-                                <td>{{ $p->nama }}</td>
-                                <td>{{ $p->notelp }}</td>
-                                <td>{{ $p->gender }}</td>
+                                <td>{{ $penyedia->email }}</td>
+                                <td>{{ $penyedia->nama }}</td>
+                                <td>{{ $penyedia->notelp }}</td>
+                                <td>{{ $penyedia->gender }}</td>
                                 <td>
-                                    @if ($p->CV)
-                                        <a href="{{ asset('storage/' . $p->CV) }}" target="_blank">Lihat CV</a>
+                                    @if ($penyedia->CV)
+                                        <a href="{{ asset('foto_profile/' . $penyedia->CV) }}" target="_blank">Lihat CV</a>
                                     @else
                                         Tidak ada CV
                                     @endif
                                 </td>
-                                <td>{{ $p->alamat }}</td>
+                                <td>{{ $penyedia->alamat }}</td>
                                 <td>
-                                    @if ($p->foto)
-                                    <a href="#" data-toggle="modal" data-target="#fotoModal{{ $p->foto }}">
-                                        lihat gambar
-                                    </a>
+                                    @if ($penyedia->foto)
+                                        <a href="#" data-toggle="modal" data-target="#fotoModal"
+                                            onclick="showImage('{{ asset('foto_profile/' . $penyedia->foto) }}')">
+                                            lihat gambar
+                                        </a>
                                     @else
-                                    Tidak ada gambar
+                                        Tidak ada gambar
                                     @endif
 
                                 </td>
-                                <td>{{ $p->tgllahir }}</td>
-                                <td>{{ $p->no_rekening }}</td>
-                                <td>{{ $p->pendidikan_terakhir }}</td>
-                                <td>{{ $p->status }}</td>
+                                <td>{{ $penyedia->tgllahir }}</td>
+                                <td>{{ $penyedia->no_rekening }}</td>
+                                <td>{{ $penyedia->pendidikan_terakhir }}</td>
+                                <td>{{ $penyedia->status }}</td>
                                 <td>
                                     <!-- Edit Button -->
-                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal{{ $p->id }}">Update</button>
+                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateModal"
+                                    onclick="update({{ json_encode($penyedia) }})">Update</button>
+                                
                                     <!-- Delete Button -->
-                                    <form action="{{ route('penyediajasa.destroy', $p->id) }}" method="POST" style="display:inline;" onsubmit="confirmDelete(this);">
+                                    <form action="{{ route('penyediajasa.destroy', $penyedia->id) }}" method="POST"
+                                        style="display:inline;" onsubmit="confirmDelete(this);">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -79,27 +83,27 @@
     </div>
 
     <!-- Modal for Viewing Foto -->
-<div class="modal fade" id="fotoModal{{ $p->id }}" tabindex="-1" aria-labelledby="fotoModalLabel{{ $p->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="fotoModalLabel{{ $p->id }}">Foto Penyedia Jasa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <img src="{{ asset('storage/' . $p->foto) }}" alt="Foto" class="img-fluid">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+    <div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fotoModalLabel">Foto Penyedia Jasa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" alt="Foto" class="img-fluid" id="foto_penyediajasa">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal for Viewing CV -->
-<div class="modal fade" id="cvModal{{ $p->id }}" tabindex="-1" aria-labelledby="cvModalLabel{{ $p->id }}" aria-hidden="true">
+    <!-- Modal for Viewing CV -->
+    {{-- <div class="modal fade" id="cvModal{{ $p->id }}" tabindex="-1" aria-labelledby="cvModalLabel{{ $p->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -120,56 +124,56 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
-<!-- Modal for Updating Status and Akses -->
-<div class="modal fade" id="updateModal{{ $p->id }}" tabindex="-1" aria-labelledby="updateModalLabel{{ $p->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="updateModalLabel{{ $p->id }}">Update Penyedia Jasa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form for Updating -->
-                <form action="{{ route('penyediajasa.update', $p->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+    <!-- Modal for Updating Status and Akses -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Update Penyedia Jasa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form for Updating -->
+                    <form action="/penyediajasa_updateee" method="POST">
+                        @csrf
+                        {{-- @method('PUT') --}}
 
-                    <!-- Dropdown for Status -->
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" name="status">
-                            <option value="aman" {{ $p->status == 'aman' ? 'selected' : '' }}>Aman</option>
-                            <option value="blokir" {{ $p->status == 'blokir' ? 'selected' : '' }}>Blokir</option>
-                            <option value="sedang_verifikasi" {{ $p->status == 'sedang_verifikasi' ? 'selected' : '' }}>Sedang Verifikasi</option>
-                        </select>
-                    </div>
+                        <!-- Dropdown for Status -->
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="aman">Aman</option>
+                                <option value="blokir">Blokir</option>
+                                <option value="sedang_verifikasi">Sedang Verifikasi</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="id" id="id_user">
+                        <!-- Dropdown for Akses -->
+                        <div class="form-group">
+                            <label for="akses">Akses</label>
+                            <select class="form-control" id="akses" name="akses">
+                                <option value="customer">Customer</option>
+                                <option value="penyedia_jasa">Penyedia Jasa</option>
+                                <option value="customer_penyediajasa">Customer Penyedia Jasa</option>
+                            </select>
+                        </div>
 
-                    <!-- Dropdown for Akses -->
-                    <div class="form-group">
-                        <label for="akses">Akses</label>
-                        <select class="form-control" id="akses" name="akses">
-                            <option value="customer" {{ $p->akses == 'customer' ? 'selected' : '' }}>Customer</option>
-                            <option value="penyedia_jasa" {{ $p->akses == 'penyedia_jasa' ? 'selected' : '' }}>Penyedia Jasa</option>
-                            <option value="customer_penyediajasa" {{ $p->akses == 'customer_penyediajasa' ? 'selected' : '' }}>Customer Penyedia Jasa</option>
-                        </select>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -210,6 +214,19 @@
 @endpush
 
 <script>
+    function showImage(url) {
+        console.log("URL Gambar:", url); // Debug URL
+        document.getElementById("foto_penyediajasa").src = url;
+    }
+
+    function update(data) {
+        document.getElementById('status').value = data.status;
+        document.getElementById('akses').value = data.akses;
+        document.getElementById('id_user').value = data.id;
+    }
+
+
+
     function confirmDelete(form) {
         event.preventDefault(); // prevent form from submitting
         Swal.fire({
@@ -235,5 +252,3 @@
 <!-- jQuery and Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-
