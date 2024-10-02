@@ -22,12 +22,20 @@ Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login
 
 Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
 Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
-Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
 
-Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
+
+Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
+Route::get('/daftar_penyedia_jasa_diblokir', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaDiblokir'])->name('show_penyedia_jasa_diblokir_admin');
+Route::get('/daftar_penyedia_jasa_diverifikasi', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaBelumVerifikasi'])->name('show_penyedia_jasa_diverifikasi_admin');
+Route::get('/daftar_penyedia_jasa_aman', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaAman'])->name('show_penyedia_jasa_aman_admin');
 Route::post('/penyediajasa_updateee', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update_status'])->name('penyediajasa.updatee');
 Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy');
 
+Route::get('/daftar_customer', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomer'])->name('show_customer_admin');
+Route::get('/daftar_customer_diblokir', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomerDiblokir'])->name('show_customer_diblokir_admin');
+Route::post('/customer_updateee', [App\Http\Controllers\CustomerAdminController::class, 'update_status'])->name('customer.updatee');
+Route::delete('/customer/{id}', [App\Http\Controllers\CustomerAdminController::class, 'destroy'])->name('customer.destroy');
 
+Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
 Route::get('auth/google', [App\Http\Controllers\LoginAdminController::class, 'redirectToGoogle']);
 Route::get('auth/callback/google', [App\Http\Controllers\LoginAdminController::class, 'handleGoogleCallback']);

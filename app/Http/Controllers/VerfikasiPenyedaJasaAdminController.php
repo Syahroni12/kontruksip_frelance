@@ -30,6 +30,48 @@ class VerfikasiPenyedaJasaAdminController extends Controller
         return view('admin.penyedia_jasa.index', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
     }
 
+    public function getDataPenyediaJasaDiblokir(Request $request)
+    {
+        // Fetch data using join query
+        $data = DB::table('users')
+            ->join('penggunas', 'penggunas.id_user', '=', 'users.id')
+            ->select('users.id','users.email', 'users.akses', 'users.status', 'penggunas.nama', 'penggunas.notelp', 'penggunas.gender', 'penggunas.CV', 'penggunas.alamat', 'penggunas.foto', 'penggunas.tgllahir', 'penggunas.no_rekening', 'penggunas.pendidikan_terakhir')
+            ->whereIn('users.akses', ['penyedia_jasa', 'customer_penyediajasa']) // Use whereIn for multiple values
+            ->where('users.status', 'blokir') // Use where for single value
+            ->get();
+
+        // Pass data to the view
+        return view('admin.penyedia_jasa.penyedia_jasa_diblokir', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
+    }
+
+    public function getDataPenyediaJasaBelumVerifikasi(Request $request)
+    {
+        // Fetch data using join query
+        $data = DB::table('users')
+            ->join('penggunas', 'penggunas.id_user', '=', 'users.id')
+            ->select('users.id','users.email', 'users.akses', 'users.status', 'penggunas.nama', 'penggunas.notelp', 'penggunas.gender', 'penggunas.CV', 'penggunas.alamat', 'penggunas.foto', 'penggunas.tgllahir', 'penggunas.no_rekening', 'penggunas.pendidikan_terakhir')
+            ->whereIn('users.akses', ['penyedia_jasa', 'customer_penyediajasa']) // Use whereIn for multiple values
+            ->where('users.status', 'sedang_verifikasi') // Use where for single value
+            ->get();
+
+        // Pass data to the view
+        return view('admin.penyedia_jasa.penyedia_jasa_verifikasi', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
+    }
+
+    public function getDataPenyediaJasaAman(Request $request)
+    {
+        // Fetch data using join query
+        $data = DB::table('users')
+            ->join('penggunas', 'penggunas.id_user', '=', 'users.id')
+            ->select('users.id','users.email', 'users.akses', 'users.status', 'penggunas.nama', 'penggunas.notelp', 'penggunas.gender', 'penggunas.CV', 'penggunas.alamat', 'penggunas.foto', 'penggunas.tgllahir', 'penggunas.no_rekening', 'penggunas.pendidikan_terakhir')
+            ->whereIn('users.akses', ['penyedia_jasa', 'customer_penyediajasa']) // Use whereIn for multiple values
+            ->where('users.status', 'aman') // Use where for single value
+            ->get();
+
+        // Pass data to the view
+        return view('admin.penyedia_jasa.penyedia_jasa_aman', ['penyediaJasa' => $data]); // Use 'penyediaJasa' instead of 'data'
+    }
+
     public function update_status(Request $request)
     {
         // Validasi input

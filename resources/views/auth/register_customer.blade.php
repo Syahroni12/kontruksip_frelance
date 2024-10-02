@@ -50,7 +50,7 @@
                                         <input type="file" class="form-control" id="Foto" name="foto"
                                             aria-describedby="textHelp" value="{{ old('foto') }}" accept=".jpg, .jpeg, .png">
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="alamat" class="form-label">Alamat </label>
                                         {{-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -78,7 +78,7 @@
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
                                         <a class="text-primary fw-bold ms-2"
-                                            href="="{{ route('login_page') }}">Sign In</a>
+                                            href="{{ route('login_page') }}">Sign In</a>
                                     </div>
                                 </form>
                             </div>
