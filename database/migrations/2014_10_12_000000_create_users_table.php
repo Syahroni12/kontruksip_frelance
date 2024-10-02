@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('akses',["admin","customer","penyedia_jasa","customer_penyediajasa"]);
             $table->enum('status',["aman","blokir", "sedang_verifikasi"]);
             $table->string('password');
+            $table->string('google_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

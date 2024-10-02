@@ -17,8 +17,12 @@ use Illuminate\Support\Facades\Route;
     Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index'])->middleware('guest');
     Route::get('/register_first', [App\Http\Controllers\AuthController::class, 'register_awal'])->name('register_awal')->middleware('guest');
     Route::get('/register_customer', [App\Http\Controllers\AuthController::class, 'register_customer'])->name('register_customer')->middleware('guest');
+    Route::get('/register_klien', [App\Http\Controllers\AuthController::class, 'register_klien'])->name('register_klien')->middleware('guest');
     Route::post('/register_customeract', [App\Http\Controllers\AuthController::class, 'daftar_customer'])->name('daftar_customer')->middleware('guest');
+    Route::post('/register_klienract', [App\Http\Controllers\AuthController::class, 'daftar_klien'])->name('daftar_klien')->middleware('guest');
+    Route::post('/loginact', [App\Http\Controllers\AuthController::class, 'loginact'])->name('loginact')->middleware('guest');
     Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login_page')->middleware('guest');
+    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
     Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
     Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');

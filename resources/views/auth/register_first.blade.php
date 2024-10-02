@@ -16,7 +16,7 @@
         
                 <br>
                 Daftar sebagai penyedia jasa
-                <a href="" class=" btn btn-sm btn-primary">daftar</a >
+                <a href="{{ route('register_klien') }}" class=" btn btn-sm btn-primary">daftar</a >
               </div>
               </div>
             </div>
