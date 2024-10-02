@@ -9,6 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
     <title>Sign In Admin</title>
@@ -158,7 +159,7 @@
 </head>
 
 <body>
-  @include('sweetalert::alert')
+    @include('sweetalert::alert')
     <main class="d-flex w-100">
         <div class="container d-flex flex-column">
             <div class="row vh-100">
@@ -169,21 +170,27 @@
                             <div class="card-body">
                                 <div class="m-sm-3">
                                     <h1 class="text-center">Login</h1>
-                                    <form action="{{ route('loginn_admin') }}" method="POST">
+                                    <form action="{{ route('loginact') }}" method="POST">
                                         @csrf
                                         <!-- Input email dengan margin -->
                                         <div class="mb-4">
                                             <label class="form-label">Email</label>
-                                            <input class="form-control form-control-lg" name="email"
+                                            <input class="form-control form-control-lg" name="email" type="email"
                                                 placeholder="Enter your email" />
                                         </div>
 
                                         <!-- Input password dengan toggle visibility dan margin -->
-                                        <div class="mb-4 input-container">
+                                        <div class="mb-4 input-container" style="position: relative;">
                                             <label class="form-label">Password</label>
-                                            <input class="form-control form-control-lg" name="password"
-                                                placeholder="Enter your password" autocomplete="off" />
+                                            <input id="password" class="form-control form-control-lg" name="password"
+                                                type="password" placeholder="Enter your password" autocomplete="off" />
+                                            <span id="togglePassword"
+                                                style="position: absolute; right: 15px; top: 70%; transform: translateY(-50%); cursor: pointer;">
+                                                <i class="fa fa-eye"></i>
+                                            </span>
                                         </div>
+
+
 
                                         <!-- Tombol sign-in -->
                                         <div class="d-grid gap-2 mt-3">
@@ -209,6 +216,20 @@
             </div>
         </div>
     </main>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            // Toggle the type attribute of the password input
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the icon
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    </script>
 
 </body>
 
