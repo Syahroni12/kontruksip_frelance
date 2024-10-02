@@ -24,12 +24,14 @@ use Illuminate\Support\Facades\Route;
     Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login_page')->middleware('guest');
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-    Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
-    Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
-    Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
+Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
+Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
+Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
 
-    Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
-    Route::post('/penyediajasa_updateee', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update_status'])->name('penyediajasa.updatee');
-    Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy');
+Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
+Route::post('/penyediajasa_updateee', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update_status'])->name('penyediajasa.updatee');
+Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy');
 
 
+Route::get('auth/google', [App\Http\Controllers\LoginAdminController::class, 'redirectToGoogle']);
+Route::get('auth/callback/google', [App\Http\Controllers\LoginAdminController::class, 'handleGoogleCallback']);

@@ -108,7 +108,139 @@ class AuthController extends Controller
             // return redirect()->back()->withInput();
             Alert::error('Email tidak valid')->flash();
             return back()->withInput();
+
         }
+         //fungsi save untuk menyimpan data ke database di tabel pelanggan
+       
+        
+
+
+
+        // DB::commit();
+        // } catch (\Exception $th) {
+        //     DB::rollBack();
+        //     Alert::error('Error', $th->getMessage())->flash();
+        //     return back()->withErrors($validator)->withInput();
+
+
+        // }
+    }
+    public function daftar_klien(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'password2' => 'required_with:password|same:password',
+            'alamat' => 'required',
+            'notelp' => 'required|numeric|min:11',
+            'tgllahir' => 'required|date',
+            'gender' => 'required|in:Laki-laki,Perempuan',
+            'foto' => 'required|mimes:jpg,png,jpeg|max:10000',
+            'no_rekening' => 'required|numeric', // Validation for No Rekening
+            'pendidikan_terakhir' => 'required|string|max:255', // Validation for Last Education
+            'CV' => 'required|mimes:pdf|max:20000', // Validation for CV
+            'id_kategorijasa' => 'required|array|min:1', // Validation for Kategori Jasa
+            'id_kategorijasa.*' => 'exists:kategori_jasas,id', // Ensure selected categories exist
+            'sertifikat' => 'required|array|min:1', // Validation for Sertifikat
+            'sertifikat.*' => 'mimes:pdf|max:20000', // Ensure each certificate is a valid PDF
+            'keahlian' => 'required|array|min:1', // Validation for Keahlian
+            'keahlian.*' => 'string|max:255', // Ensure each skill is a string
+        ]);
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::error($messages)->flash();
+            return back()->withErrors($validator)->withInput();
+        }
+        $tanggal = Carbon::parse($request->tgllahir)->format('Y-m-d');
+        $umur = $this->hitungUmur($tanggal);
+
+        // dd($umur);
+        if ($umur < 17) {
+            Alert::error('Anda harus berusia 17 tahun keatas')->flash();
+            return back()->withInput();
+            # code...
+        }
+        //DB::beginTransaction(); merupakan fungsi untuk memulai transaksi di database
+        // DB::beginTransaction();
+        // try {
+        //code...
+
+
+        // try {
+            $admin = User::where('akses', 'admin')->first();
+
+
+            $user = new User(); //membuat objek user
+            // $user->name = $request->nama;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->akses = "penyedia_jasa";
+            $user->status = "sedang_verifikasi";
+            $user->save(); //fungsi save untuk menyimpan data ke database di tabel user
+            Mail::to($admin->email)->send(new penyedia_jasadaftar($user));
+            $pengguna = new Pengguna();
+            $pengguna->id_user = $user->id;
+            $pengguna->nama = $request->nama;
+            $pengguna->alamat = $request->alamat;
+            $pengguna->notelp = $request->notelp;
+            $pengguna->pendidikan_terakhir = $request->pendidikan_terakhir;
+            $pengguna->no_rekening = $request->no_rekening;
+            $pengguna->gender = $request->gender;
+
+
+
+            $pengguna->tgllahir = $request->tgllahir;
+            $fileName = time() . '.' . $request->file('foto')->getClientOriginalExtension(); //mengambil ekstensi file
+
+            $request->file('foto')->move(public_path() . '/foto_profile', $fileName); //mengupload file ke public/produk
+            $pengguna->foto = $fileName;
+            $fileNameCV = time() . '.' . $request->file('CV')->getClientOriginalExtension(); //mengambil ekstensi file
+
+            $request->file('CV')->move(public_path() . '/CV_profile', $fileNameCV); //mengupload file ke public/produk
+            $pengguna->CV = $fileNameCV;
+            $pengguna->save();
+            foreach ($request->keahlian as $keahlian) {
+                Keahlian::create([
+                    'id_pengguna' => $pengguna->id, // Assuming a relationship with user
+                    'keahlian' => $keahlian,
+                ]);
+            }
+
+            foreach ($request->id_kategorijasa as $id_kategorijasa) {
+                kategorijasa_user::create([
+                    'id_pengguna' => $pengguna->id, // Assuming a relationship with user
+                    'id_kategorijasa' => $id_kategorijasa,
+                ]);
+            }
+
+            foreach ($request->file('sertifikat') as $sertifikat) {
+                // Menghasilkan nama unik untuk file sertifikat
+                $sertifikatName = time() . '.' . $sertifikat->getClientOriginalExtension(); // Mengambil ekstensi file
+
+                // Memindahkan file yang diunggah ke direktori yang ditentukan
+                $sertifikat->move(public_path('sertifikat'), $sertifikatName); // Memindahkan file ke public/sertifikat
+
+                // Membuat record Sertifikat baru di database
+                Sertifikat::create([
+                    'id_pengguna' => $pengguna->id, // Mengasumsikan adanya hubungan dengan pengguna
+                    'sertif' => $sertifikatName // Menyimpan nama file
+                ]);
+            }
+
+
+
+            Alert::success('Success', 'Berhasil Registrasi silahkan cek email')->flash();
+            // DB::commit();//fungsi commit untuk menyelesaikan transaksi di database ATAU DI masukkan
+            return redirect()->route('register_customer');
+        // } catch (\Exception $e) {
+        //     // Handle the error, for example:
+
+        //     // return redirect()->back()->withInput();
+        //     Alert::error('Email tidak valid')->flash();
+        //     return back()->withInput();
+        // }
         //fungsi save untuk menyimpan data ke database di tabel pelanggan
 
 
