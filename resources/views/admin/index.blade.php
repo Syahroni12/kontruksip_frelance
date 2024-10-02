@@ -180,11 +180,11 @@
                                         <div class="d-grid gap-2 mt-3">
                                             <button type="submit" class="btn btn-lg btn-primary">Login</button>
                                         </div>
-										<a href="{{ route('register_awal') }}" class="text-right">belum punya akun?registrasi</a>
                                     </form>
+                                    <a href="{{ route('register_awal') }}" class="text-right">belum punya akun?registrasi</a>
                                     <!-- Tombol sign-in with Google -->
 										<div class="d-grid gap-2 mt-5">
-											<a href="index.html" class="btn btn-google">
+											<a href="{{ url('auth/google') }}" class="btn btn-google">
 												<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google Logo" width="20">
 												Sign in with Google
 											</a>

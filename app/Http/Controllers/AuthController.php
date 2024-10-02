@@ -97,11 +97,11 @@ class AuthController extends Controller
             // return redirect()->back()->withInput();
             Alert::error('Email tidak valid')->flash();
             return back()->withInput();
-            
+
         }
          //fungsi save untuk menyimpan data ke database di tabel pelanggan
-       
-        
+
+
 
 
 
