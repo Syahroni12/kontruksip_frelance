@@ -36,9 +36,11 @@
                                         <label for="gender" class="form-label">gender</label>
                                         <select id="gender" class="form-select" name="gender">
                                             <option>Pilih Gender</option>
-                                            <option value="Laki-laki" @if (old('gender') == 'Laki-laki') selected @endif>Laki-laki</option>
-                                            <option value="Perempuan" @>Perempuan</option>
-                                          </select>
+                                            <option value="Laki-laki" @if (old('gender') == 'Laki-laki') selected @endif>
+                                                Laki-laki</option>
+                                            <option value="Perempuan" @if (old('gender') == 'Perempuan') selected @endif>
+                                                Perempuan</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="tgllahir" class="form-label">Tanggal Lahir</label>
@@ -60,53 +62,61 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
-                                        <input type="text" class="form-control" id="pendidikan_terakhir" name="pendidikan_terakhir"
-                                            aria-describedby="textHelp" value="{{ old('pendidikan_terakhir') }}">
+                                        <input type="text" class="form-control" id="pendidikan_terakhir"
+                                            name="pendidikan_terakhir" aria-describedby="textHelp"
+                                            value="{{ old('pendidikan_terakhir') }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="Foto" class="form-label">Foto profile</label>
                                         <input type="file" class="form-control" id="Foto" name="foto"
-                                            aria-describedby="textHelp" value="{{ old('foto') }}" accept=".jpg, .jpeg, .png">
+                                            aria-describedby="textHelp" value="{{ old('foto') }}"
+                                            accept=".jpg, .jpeg, .png">
                                     </div>
                                     <div class="mb-3">
                                         <label for="CV" class="form-label">CV</label>
                                         <input type="file" class="form-control" id="CV" name="CV"
-                                            aria-describedby="textHelp" value="{{ old('CV') }}" accept=".pdf" required>
+                                            aria-describedby="textHelp" value="{{ old('CV') }}" accept=".pdf"
+                                            required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="id_kategorijasa" class="form-label">Kategori jasa</label>
-                                        @foreach ($kategori_jasa as $kategorijasa)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $kategorijasa->id }}" @if (in_array($kategorijasa->id, old('id_kategorijasa', []))) checked @endif name="id_kategorijasa[]" id="{{ $kategorijasa->id }} ">
-                                            <label class="form-check-label" for="{{ $kategorijasa->id }} ">
-                                              {{ $kategorijasa->kategori }}
-                                            </label>
-                                          </div>
-                                          @endforeach
+
+
+
+
+                                        <label for="id_kategori" class="form-label">id_kategori</label>
+                                        <select id="id_kategori" class="form-select" name="id_kategori">
+                                            @foreach ($kategori_jasa as $kategorijasa)
+                                                <option value="{{ $kategorijasa->id }}">{{ $kategorijasa->kategori }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div id="file-input-container">
                                         <div class="mb-3">
                                             <label for="sertifikat" class="form-label">Sertifikat</label>
                                             <div class="input-group">
-                                                <input type="file" class="form-control" id="sertifikat" name="sertifikat[]" aria-describedby="textHelp" accept=".pdf" required>
+                                                <input type="file" class="form-control" id="sertifikat"
+                                                    name="sertifikat[]" aria-describedby="textHelp" accept=".pdf"
+                                                    required>
                                                 <button type="button" class="btn btn-success add-btn">Tambah</button>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div id="skill-input-container">
                                         <div class="mb-3">
                                             <label for="keahlian" class="form-label">Keahlian</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="keahlian" name="keahlian[]" aria-describedby="textHelp"  required>
+                                                <input type="text" class="form-control" id="keahlian"
+                                                    name="keahlian[]" aria-describedby="textHelp" required>
                                                 <button type="button" class="btn btn-success add-btn">Tambah</button>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
-                                    
-                                    
+
+
+
+
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Email </label>
                                         <input type="email" class="form-control" id="exampleInputEmail1"
@@ -124,7 +134,8 @@
                                         <i class="fa-solid fa-eye position-absolute" id="togglePassword2"
                                             style="right: 15px; top: 45px; cursor: pointer;"></i>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Daftar</button>
+                                    <button type="submit"
+                                        class="btn btn-primary w-100 py-8 fs-4 mb-4">Daftar</button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
                                         <a class="text-primary fw-bold ms-2"
@@ -138,7 +149,7 @@
             </div>
         </div>
     </div>
- <script>
+    <script>
         // Toggle password visibility
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
@@ -166,14 +177,14 @@
 
 
 
-        document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('file-input-container');
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('file-input-container');
 
-        container.addEventListener('click', function (e) {
-            if (e.target.classList.contains('add-btn')) {
-                const newInputGroup = document.createElement('div');
-                newInputGroup.classList.add('mb-3');
-                newInputGroup.innerHTML = `
+            container.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-btn')) {
+                    const newInputGroup = document.createElement('div');
+                    newInputGroup.classList.add('mb-3');
+                    newInputGroup.innerHTML = `
                     <label class="form-label">Sertifikat</label>
                     <div class="input-group">
                         <input type="file" class="form-control" name="sertifikat[]" aria-describedby="textHelp" accept=".pdf" required>
@@ -181,23 +192,23 @@
                         <button type="button" class="btn btn-danger remove-btn">Hapus</button>
                     </div>
                 `;
-                container.appendChild(newInputGroup);
-            } else if (e.target.classList.contains('remove-btn')) {
-                const parentInputGroup = e.target.closest('.mb-3');
-                container.removeChild(parentInputGroup);
-            }
+                    container.appendChild(newInputGroup);
+                } else if (e.target.classList.contains('remove-btn')) {
+                    const parentInputGroup = e.target.closest('.mb-3');
+                    container.removeChild(parentInputGroup);
+                }
+            });
         });
-    });
 
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('skill-input-container');
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('skill-input-container');
 
-        container.addEventListener('click', function (e) {
-            if (e.target.classList.contains('add-btn')) {
-                const newInputGroup = document.createElement('div');
-                newInputGroup.classList.add('mb-3');
-                newInputGroup.innerHTML = `
+            container.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-btn')) {
+                    const newInputGroup = document.createElement('div');
+                    newInputGroup.classList.add('mb-3');
+                    newInputGroup.innerHTML = `
                     <label class="form-label">Keahlian</label>
                     <div class="input-group">
                         <input type="text" class="form-control" name="keahlian[]" aria-describedby="textHelp" required>
@@ -205,13 +216,13 @@
                         <button type="button" class="btn btn-danger remove-btn">Hapus</button>
                     </div>
                 `;
-                container.appendChild(newInputGroup);
-            } else if (e.target.classList.contains('remove-btn')) {
-                const parentInputGroup = e.target.closest('.mb-3');
-                container.removeChild(parentInputGroup);
-            }
+                    container.appendChild(newInputGroup);
+                } else if (e.target.classList.contains('remove-btn')) {
+                    const parentInputGroup = e.target.closest('.mb-3');
+                    container.removeChild(parentInputGroup);
+                }
+            });
         });
-    });
 
         // Confirm password validation
         // document.querySelector('#registerBtn').addEventListener('click', function(event) {

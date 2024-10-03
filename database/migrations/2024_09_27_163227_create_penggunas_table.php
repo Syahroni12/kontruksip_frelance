@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('pendidikan_terakhir')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('id_kategori')->nullable();
+            $table->foreign('id_kategori')->references('id')->on('kategori_jasas')->onDelete('cascade');
 
             $table->timestamps();
         });
