@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('CV')->nullable();
             $table->text('alamat');
+            $table->text("deskripsi")->nullable();
             $table->string('foto');
             $table->date('tgllahir');
             $table->string('no_rekening')->nullable();

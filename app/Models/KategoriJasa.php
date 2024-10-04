@@ -12,8 +12,12 @@ class KategoriJasa extends Model
     protected $guarded = ['id'];
     protected $table = 'kategori_jasas';
 
-    public function kategorijasa_users()
+    public function Pengguna()
     {
-        return $this->hasMany(kategorijasa_user::class,'id_kategorijasa');
+        return $this->hasMany(Pengguna::class,'id_kategori','id');
+    }
+    public function produk()
+    {
+        return $this->hasMany(Produk::class,'id_kategori','id');
     }
 }

@@ -16,11 +16,11 @@ return new class extends Migration
             $table->enum("paket",["silver","gold","diamond"]);
             $table->integer("harga");
             $table->string("deskripsi");
-            $table->date("tgl_awal");
-            $table->date("tgl_akhir");
-            $table->unsignedBigInteger('id_kategori')->nullable();
+            $table->integer("lama_hari");
+         
+            $table->unsignedBigInteger('id_produk')->nullable();
 
-            $table->foreign('id_kategori')->references('id')->on('produks')->onDelete('cascade');
+            $table->foreign('id_produk')->references('id')->on('produks')->onDelete('cascade');
 
             $table->timestamps();
         });

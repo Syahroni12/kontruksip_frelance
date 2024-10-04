@@ -27,4 +27,11 @@ protected $guarded='id';
     {
         return $this->hasMany(Keahlian::class, 'id_user');
     }
+    public function produk()
+    {
+        return $this->hasMany(Produk::class, 'id_pengguna','id');
+    }
+    public function transaksi() {
+        return $this->hasMany(Transaksi::class, 'id_pengguna', 'id');
+    }
 }
