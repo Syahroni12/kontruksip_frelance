@@ -134,6 +134,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'password2' => 'required_with:password|same:password',
             'alamat' => 'required',
+            'deskripsi' => 'required',
             'notelp' => 'required|numeric|min:11',
             'tgllahir' => 'required|date',
             'gender' => 'required|in:Laki-laki,Perempuan',
@@ -184,6 +185,7 @@ class AuthController extends Controller
             $pengguna->id_user = $user->id;
             $pengguna->nama = $request->nama;
             $pengguna->alamat = $request->alamat;
+            $pengguna->deskripsi = $request->deskripsi;
             $pengguna->notelp = $request->notelp;
             $pengguna->pendidikan_terakhir = $request->pendidikan_terakhir;
             $pengguna->no_rekening = $request->no_rekening;

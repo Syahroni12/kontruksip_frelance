@@ -53,6 +53,12 @@
                      --}}
                                         <textarea name="alamat" id="alamat" cols="30" rows="4" class="form-control" placeholder="alamat">{{ old('alamat') }}</textarea>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="deskripsi" class="form-label">Deskripsi Profil </label>
+                                        {{-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                     --}}
+                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="4" class="form-control" placeholder="alamat">{{ old('deskripsi') }}</textarea>
+                                    </div>
 
 
                                     <div class="mb-3">

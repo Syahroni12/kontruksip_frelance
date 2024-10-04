@@ -13,7 +13,12 @@ class PaketProduk extends Model
 
     public function produk()
     {
-        return $this->belongsTo(Produk::class, 'id_kategori');
+        return $this->belongsTo(Produk::class, 'id_produk');
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'id_paket', 'id');
     }
 
 }
