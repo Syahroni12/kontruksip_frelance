@@ -178,7 +178,7 @@ ol {
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 13px 30px 12px;
-	background: #7fad39;
+	background: #FFC7ED;
 	border: none;
 }
 
@@ -460,7 +460,7 @@ ol {
 }
 
 .header__menu ul li.active a {
-	color: #7fad39;
+	color: #7D8ABC;
 }
 
 .header__menu ul li:hover .header__menu__dropdown {
@@ -470,7 +470,7 @@ ol {
 }
 
 .header__menu ul li:hover>a {
-	color: #7fad39;
+	color: #7D8ABC;
 }
 
 .header__menu ul li:last-child {
@@ -524,7 +524,7 @@ ol {
 .header__cart ul li a span {
 	height: 13px;
 	width: 13px;
-	background: #7fad39;
+	background: #7D8ABC;
 	font-size: 10px;
 	color: #ffffff;
 	line-height: 13px;
@@ -738,7 +738,7 @@ ol {
 	text-transform: uppercase;
 	font-weight: 700;
 	letter-spacing: 4px;
-	color: #7fad39;
+	color: #7D8ABC;
 }
 
 .hero__text h2 {
@@ -1782,7 +1782,7 @@ ol {
 	height: 100%;
 	width: 100%;
 	font-size: 16px;
-	color: #6f6f6f;
+	color: #0b0b0b;
 	width: 50px;
 	border: none;
 	background: #f5f5f5;
@@ -2124,7 +2124,7 @@ ol {
 	border: 1px solid #ebebeb;
 	padding-left: 20px;
 	font-size: 16px;
-	color: #b2b2b2;
+	color: #0b0b0b;
 	border-radius: 4px;
 }
 

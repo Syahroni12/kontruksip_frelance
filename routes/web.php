@@ -21,8 +21,18 @@ use Illuminate\Support\Facades\Route;
     Route::post('/register_customeract', [App\Http\Controllers\AuthController::class, 'daftar_customer'])->name('daftar_customer')->middleware('guest');
     Route::post('/register_klienract', [App\Http\Controllers\AuthController::class, 'daftar_klien'])->name('daftar_klien')->middleware('guest');
     Route::post('/loginact', [App\Http\Controllers\AuthController::class, 'loginact'])->name('loginact')->middleware('guest');
-    Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login_page')->middleware('guest');
+    Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login')->middleware('guest');
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+
+    
+Route::get('/home_penyediajasa', [App\Http\Controllers\PenyediaJasaController::class, 'index'])->name('home_penyediajasa')->middleware('auth');
+Route::get('/tambah_produk', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_produk'])->name('tambah_produk')->middleware('auth');
+Route::get('/edit_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'edit_produk'])->name('edit_produk')->middleware('auth');
+Route::put('/update_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'update_produk'])->name('update_produk')->middleware('auth');
+Route::post('/tambah_produkact', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_produkact'])->name('tambah_produkact')->middleware('auth');
+Route::get('/hapus_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_produk'])->name('hapus_produk')->middleware('auth');
+
 
 Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
 Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
