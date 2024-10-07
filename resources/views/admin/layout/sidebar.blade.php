@@ -22,6 +22,7 @@
     <!-- Bootstrap & Feather Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.css">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
         body {
@@ -122,8 +123,8 @@
                     </li>
 
 
-                    <li class="sidebar-item ">
-                        <a class="sidebar-link">
+                    <li class="sidebar-item {{ Route::is('show_transaksi_admin') ? 'active' : '' }}">
+                        <a class="sidebar-link" href="{{ route('show_transaksi_admin')}}">
                             <i class="align-middle" data-feather="bar-chart-2"></i> <span
                                 class="align-middle">Daftar Transaksi</span>
                         </a>
