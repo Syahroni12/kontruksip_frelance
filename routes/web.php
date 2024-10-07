@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
-    
+
 Route::get('/home_penyediajasa', [App\Http\Controllers\PenyediaJasaController::class, 'index'])->name('home_penyediajasa')->middleware('auth');
 Route::get('/tambah_produk', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_produk'])->name('tambah_produk')->middleware('auth');
 Route::get('/edit_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'edit_produk'])->name('edit_produk')->middleware('auth');
@@ -34,21 +34,27 @@ Route::post('/tambah_produkact', [App\Http\Controllers\PenyediaJasaController::c
 Route::get('/hapus_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_produk'])->name('hapus_produk')->middleware('auth');
 
 
+Route::get('/home_customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('home_customer')->middleware('auth');
+Route::get('/cus_detailproduk/{id}', [App\Http\Controllers\CustomerController::class, 'cus_detailproduk'])->name('cus_detailproduk')->middleware('auth');
+
+
 Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');
-Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin');
+Route::get('/dashboard_admin', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_dashboard_admin')->middleware('auth');
 
 
-Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin');
-Route::get('/daftar_penyedia_jasa_diblokir', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaDiblokir'])->name('show_penyedia_jasa_diblokir_admin');
-Route::get('/daftar_penyedia_jasa_diverifikasi', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaBelumVerifikasi'])->name('show_penyedia_jasa_diverifikasi_admin');
-Route::get('/daftar_penyedia_jasa_aman', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaAman'])->name('show_penyedia_jasa_aman_admin');
-Route::post('/penyediajasa_updateee', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update_status'])->name('penyediajasa.updatee');
-Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy');
+Route::get('/daftar_penyedia_jasa', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasa'])->name('show_penyedia_jasa_admin')->middleware('auth');
+Route::get('/daftar_penyedia_jasa_diblokir', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaDiblokir'])->name('show_penyedia_jasa_diblokir_admin')->middleware('auth');
+Route::get('/daftar_penyedia_jasa_diverifikasi', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaBelumVerifikasi'])->name('show_penyedia_jasa_diverifikasi_admin')->middleware('auth');
+Route::get('/daftar_penyedia_jasa_aman', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'getDataPenyediaJasaAman'])->name('show_penyedia_jasa_aman_admin')->middleware('auth');
+Route::post('/penyediajasa_updateee', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'update_status'])->name('penyediajasa.updatee')->middleware('auth');
+Route::delete('/penyediajasa/{id}', [App\Http\Controllers\VerfikasiPenyedaJasaAdminController::class, 'destroy'])->name('penyediajasa.destroy')->middleware('auth');
 
-Route::get('/daftar_customer', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomer'])->name('show_customer_admin');
-Route::get('/daftar_customer_diblokir', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomerDiblokir'])->name('show_customer_diblokir_admin');
-Route::post('/customer_updateee', [App\Http\Controllers\CustomerAdminController::class, 'update_status'])->name('customer.updatee');
-Route::delete('/customer/{id}', [App\Http\Controllers\CustomerAdminController::class, 'destroy'])->name('customer.destroy');
+Route::get('/daftar_customer', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomer'])->name('show_customer_admin')->middleware('auth');
+Route::get('/daftar_customer_diblokir', [App\Http\Controllers\CustomerAdminController::class, 'getDataCustomerDiblokir'])->name('show_customer_diblokir_admin')->middleware('auth');
+Route::post('/customer_updateee', [App\Http\Controllers\CustomerAdminController::class, 'update_status'])->name('customer.updatee')->middleware('auth');
+Route::delete('/customer/{id}', [App\Http\Controllers\CustomerAdminController::class, 'destroy'])->name('customer.destroy')->middleware('auth');
+
+Route::get('/transaksi', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_transaksi_admin')->middleware('auth');
 
 Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
 Route::get('auth/google', [App\Http\Controllers\LoginAdminController::class, 'redirectToGoogle']);

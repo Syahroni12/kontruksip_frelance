@@ -71,13 +71,13 @@
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
-                            
-    
+
+
                             <div class="header__top__right__auth">
                                 <a href="#"><img src="img/language.png" alt=""></i>{{ Auth::user()->email }}</a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
 
                 </div>
             </div>
@@ -122,7 +122,7 @@
     @include('sweetalert::alert')
     <!-- Hero Section Begin -->
     @yield('konten')
-    
+
     <!-- Featured Section End -->
 
     <!-- Banner Begin -->
@@ -159,7 +159,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href="./index.html"><img src="{{ asset('template_user/') }}img/logo.png"
+                            <a href="./index.html"><img src="{{ asset('template_user/img/logo.png') }}"
                                     alt=""></a>
                         </div>
 

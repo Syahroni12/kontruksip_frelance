@@ -254,7 +254,7 @@ class AuthController extends Controller
 
         // }
     }
-    
+
 
     public function hitungUmur($tanggalLahir)
     {
@@ -269,7 +269,7 @@ class AuthController extends Controller
 
     // login admin
 
-   
+
 
     public function loginact(Request $request)
     {
@@ -313,6 +313,30 @@ class AuthController extends Controller
                     // } elseif(Auth::user()->akses == 'customer') {
                     //     Alert::success('Success', 'Login Berhasil di lakukan')->flash();
                     //     return dd(Auth::user()->akses);
+                } elseif(Auth::user()->akses == 'admin'){
+                    if (Auth::user()->status == 'aman') {
+                        Alert::success('Success', 'Login Berhasil di lakukan')->flash();
+                        return redirect()->route('show_dashboard_admin');
+                    } elseif (Auth::user()->status == 'blokir') {
+                        Auth::logout();
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+                        Alert::error('Gagal', 'Akun anda diblokir')->flash();
+                        return back()->withInput();
+                        // dd(Auth::user()->akses);
+                    } else {
+                        Auth::logout();
+                        $request->session()->invalidate();
+                        $request->session()->regenerateToken();
+                        Alert::error('Gagal', 'Akun anda sedang diverifikasi')->flash();
+                        return back()->withInput();
+                    }
+
+
+                }elseif (Auth::user()->akses == 'customer') {
+                    Alert::success('success', 'Berhasil login')->flash();
+                    // dd("sddsdsd");
+                    return redirect()->route('home_customer');
                 }
 
                 // dd(Auth::user()->akses);
@@ -339,6 +363,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         Alert::success('Success', 'Logout Berhasil di lakukan')->flash();
-        return redirect('/');
+        return redirect()->route('login');
     }
 }

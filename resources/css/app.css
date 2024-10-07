@@ -1,0 +1,66 @@
+/* Mengatur ukuran dan padding ikon pada navigasi paginasi */
+.pagination .page-link {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px; /* Tambahkan sedikit pembulatan sudut */
+    margin: 0 2px; /* Beri sedikit ruang antara tombol paginasi */
+    transition: background-color 0.3s ease; /* Efek hover yang lebih smooth */
+}
+
+.pagination .page-item .page-link svg {
+    width: 16px; /* Ukuran ikon panah */
+    height: 16px;
+}
+
+/* Tambahkan hover state agar interaktif */
+.pagination .page-link:hover {
+    background-color: #007bff; /* Warna biru saat hover */
+    color: white; /* Ubah warna teks menjadi putih saat hover */
+}
+
+/* Style untuk halaman yang aktif */
+.pagination .page-item.active .page-link {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: white;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 576px) {
+    .pagination .page-link {
+        font-size: 12px; /* Ukuran font lebih kecil untuk mobile */
+        padding: 6px 8px; /* Padding lebih kecil di layar kecil */
+    }
+
+    .pagination .page-item .page-link svg {
+        width: 14px; /* Ikon lebih kecil di layar kecil */
+        height: 14px;
+    }
+}
+
+/* Table responsive padding dan border untuk tampilan lebih rapi */
+.table-responsive {
+    overflow-x: auto; /* Agar tabel bisa di-scroll jika tidak muat */
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.table td, .table th {
+    padding: 10px;
+    text-align: center;
+}
+
+.card {
+    margin-bottom: 30px; /* Beri sedikit ruang di bawah kartu */
+}
+
+.card-header {
+    background-color: #f8f9fa; /* Warna latar belakang header kartu */
+}
+
+.card-body {
+    padding: 20px; /* Beri sedikit padding untuk konten dalam kartu */
+}

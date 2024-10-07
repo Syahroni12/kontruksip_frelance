@@ -51,7 +51,7 @@
                   <form class="form-inline my-2 my-lg-0">
                      <div class="login_text">
                         <ul>
-                           <li><a href="{{ route('login_page') }}">Login</a></li>
+                           <li><a href="{{ route('login') }}">Login</a></li>
                            <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
                         </ul>
                      </div>
@@ -455,7 +455,7 @@
                      <form action="">
                         <div class="mail_section_1">
                            <input type="text" class="mail_text" placeholder="Name" name="Name">
-                           <input type="text" class="mail_text" placeholder="Phone Number" name="Phone Number"> 
+                           <input type="text" class="mail_text" placeholder="Phone Number" name="Phone Number">
                            <input type="text" class="mail_text" placeholder="Email" name="Email">
                            <textarea class="massage-bt" placeholder="Massage" rows="5" id="comment" name="Massage"></textarea>
                            <div class="send_bt"><a href="#">SEND</a></div>
