@@ -89,7 +89,7 @@
 
 
 
-                                        <label for="id_kategori" class="form-label">id_kategori</label>
+                                        <label for="id_kategori" class="form-label">kategori</label>
                                         <select id="id_kategori" class="form-select" name="id_kategori">
                                             @foreach ($kategori_jasa as $kategorijasa)
                                                 <option value="{{ $kategorijasa->id }}">{{ $kategorijasa->kategori }}

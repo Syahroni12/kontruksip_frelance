@@ -8,20 +8,20 @@
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>Rekontruksip </title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/elegant-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/nice-select.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/jquery-ui.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template_user/css/style.css') }}" type="text/css">
 </head>
 
 <body>
@@ -45,13 +45,7 @@
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
-                <img src="img/language.png" alt="">
-                <div>English</div>
-                <span class="arrow_carrot-down"></span>
-                <ul>
-                    <li><a href="#">Spanis</a></li>
-                    <li><a href="#">English</a></li>
-                </ul>
+                
             </div>
             <div class="header__top__right__auth">
                 <a href="#"><i class="fa fa-user"></i> Login</a>

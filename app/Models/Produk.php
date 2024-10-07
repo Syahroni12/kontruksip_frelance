@@ -20,6 +20,6 @@ class Produk extends Model
         return $this->belongsTo(Pengguna::class, 'id_pengguna','id');
     }
     public function paket() {
-        return $this->hasMany(PaketProduk::class, 'id_user');
+        return $this->hasMany(PaketProduk::class, 'id_produk', 'id');
     }
 }
