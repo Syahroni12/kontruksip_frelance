@@ -64,22 +64,22 @@
                     </div>
                     <div class="card-body">
                       <h5 class="card-title">Penyedia jasa dengan email {{ $data->email }}</h5>
-                  
+
                       {{-- <p class="card-text">Tunggu Info Selanjutnya</p>
                        --}}
-                     <a href="{{ route('login_page')}}">Tekan Disini untuk melihat</a>
+                     <a href="{{ route('login')}}">Tekan Disini untuk melihat</a>
                      {{-- @dd($token) --}}
                     </div>
                 </div>
-                   
-                  
+
+
             </div>
         </div>
 
     </div>
 
-    
-    
+
+
   </body>
 </html>
 

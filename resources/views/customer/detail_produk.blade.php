@@ -4,22 +4,24 @@
     <div class="row">
         <!-- Konten Utama -->
         <div class="col-lg-8">
-            <h1>Produk</h1>
+            <h1>Produk : {{ $produk->nama }}</h1>
             <div class="card mb-4">
-                <img src="{{ asset('produk/' . $produk->gambar) }}" class="card-img-top" alt="...">
+                <img src="{{ asset('produk/' . $produk->gambar) }}" class="card-img-top" alt="..." style="width: 150px; height: auto;">
                 <div class="card-body">
                     <p class="card-text">
-                       Kategori : {{ $produk->kategori->kategori}}
+                       Kategori : {{ $produk->kategori->kategori }}
                     </p>
                 </div>
             </div>
+
 
             <!-- Profil -->
             <div class="d-flex align-items-center mt-4">
                 <!-- Gambar Profil -->
                 <div class="me-3">
-                    <img src="{{$pengguna->foto}}" class="rounded-circle" alt="Profile Image">
+                    <img src="{{ asset('foto_profile/' . $pengguna->foto) }}" class="rounded-circle" alt="Profile Image" style="width: 50px; height: 50px;">
                 </div>
+
 
                 <!-- Detail Profil -->
                 <div>
@@ -37,7 +39,7 @@
             <div class="mt-5">
                 <h4>Deskripsi Penyedia Jasa</h4>
                 <p>
-                    {{$pengguna->}}
+                    {{$pengguna->deskripsi}}
                 </p>
             </div>
 
@@ -46,8 +48,11 @@
                 <div class="card-body">
                     <h5>Keahlian</h5>
                     <ul>
-                        <li>dxfcgvhbjnkl;kjhgcfbnlxmkxshxsidhsuhdishiduhsi</li>
-                        <li>dsjdhsdhusdusdushu</li>
+                        @foreach ($keahlian as $item)
+
+                        <li>{{ $item->keahlian }}</li>
+                        @endforeach
+
                     </ul>
                 </div>
             </div>
@@ -74,45 +79,39 @@
                     <div class="tab-content" id="myTabContent">
                         <!-- Tab silver -->
                         <div class="tab-pane fade show active" id="silver" role="tabpanel" aria-labelledby="silver-tab">
-                            <h5>silver Package</h5>
-                            <p>silver description</p>
-                            <p>$100</p>
-                            <button class="btn btn-primary w-100">Continue</button>
+                            <h5>Paket silver</h5>
+                            <p> Deskripsi: {{ $silver->deskripsi }}</p>
+
+                            <p> Lama Hari :  {{ $silver->lama_hari }}</p>
+                            <p>{{ number_format($silver->harga) }}</p>
+                            <a href="{{ route('checkout', $silver->id) }}" class="btn btn-primary w-100">Continue</a>
                         </div>
 
                         <!-- Tab gold -->
                         <div class="tab-pane fade" id="gold" role="tabpanel" aria-labelledby="gold-tab">
                             <h5>gold Package</h5>
-                            <p>gold description</p>
-                            <p>$200</p>
-                            <button class="btn btn-primary w-100">Continue</button>
+                            <p> Deskripsi: {{ $gold->deskripsi }}</p>
+
+                            <p> Lama Hari :  {{ $gold->lama_hari }}</p>
+                            <p>{{ number_format($gold->harga) }}</p>
+                            <a href="{{ route('checkout', $gold->id) }}" class="btn btn-primary w-100">Continue</a>
                         </div>
 
                         <!-- Tab diamond -->
                         <div class="tab-pane fade" id="diamond" role="tabpanel" aria-labelledby="diamond-tab">
                             <h5>diamond Package</h5>
-                            <p>Resume, Cover Letter, and LinkedIn Profile</p>
-                            <p>$595</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check"></i> 14-day delivery</li>
-                                <li><i class="fas fa-check"></i> 2 Revisions</li>
-                                <li><i class="fas fa-check"></i> Source file</li>
-                                <li><i class="fas fa-check"></i> Custom design</li>
-                            </ul>
-                            <button class="btn btn-dark w-100">Continue</button>
+                            <p> Deskripsi: {{ $diamond->deskripsi }}</p>
+
+                            <p> Lama Hari :  {{ $diamond->lama_hari }}</p>
+                            <p>{{ number_format($diamond->harga) }}</p>
+                            <a href="{{ route('checkout', $diamond->id) }}" class="btn btn-primary w-100">Continue</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Contact Me Section -->
-            <div class="card mt-3">
-                <div class="card-body">
-                    <button class="btn btn-outline-primary w-100 mb-3">Contact me</button>
-                    <p><i class="fas fa-comments"></i> Offers paid consultations</p>
-                    <p><i class="fas fa-clock"></i> Offers hourly rates</p>
-                </div>
-            </div>
+
         </div>
     </div>
 @endsection

@@ -6,6 +6,7 @@ use App\Models\KategoriJasa;
 use App\Models\PaketProduk;
 use App\Models\Pengguna;
 use App\Models\Produk;
+use App\Models\sertifikat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -45,8 +46,8 @@ class PenyediaJasaController extends Controller
         $data = Produk::where('id', $id_produk)->first();
         $kategori = KategoriJasa::all();
         $paket = PaketProduk::where('id_produk', $id_produk)
-    ->orderByRaw("FIELD(paket, 'silver', 'gold', 'diamond') ASC") // Gantilah 'nama' dengan nama kolom yang sesuai
-    ->get();
+            ->orderByRaw("FIELD(paket, 'silver', 'gold', 'diamond') ASC") // Gantilah 'nama' dengan nama kolom yang sesuai
+            ->get();
 
         // $id_pengguna = Pengguna::where('id_user', auth()->user()->id)->value('id');
         return view('penyediajasa.edit_produk', compact('kategori', 'data', 'paket'));
@@ -55,7 +56,7 @@ class PenyediaJasaController extends Controller
 
     public function tambah_produkact(Request $request)
     {
-        dump($request->all());
+        // dump($request->all());
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
 
@@ -84,7 +85,7 @@ class PenyediaJasaController extends Controller
         if ($request->hasFile('gambar')) {
             $fileName = time() . '.' . $request->file('gambar')->getClientOriginalExtension(); //mengambil ekstensi file
 
-            $request->file('gambar')->move(public_path() . '/CV_profile', $fileName); //mengupload file ke public/produk
+            $request->file('gambar')->move(public_path() . '/produk', $fileName); //mengupload file ke public/produk
             $produk->gambar = $fileName;
         }
         $id_pengguna = Pengguna::where('id_user', auth()->user()->id)->value('id');
@@ -95,48 +96,46 @@ class PenyediaJasaController extends Controller
         $paketLabels = ['silver', 'gold', 'diamond'];
         foreach ($paketLabels as $index => $paket) {
             $harga = str_replace('.', '', $request->harga[$index]);
-            $paketproduk=new PaketProduk();
-            
+            $paketproduk = new PaketProduk();
+
             $paketproduk->paket = $paket;
-                $paketproduk->harga = $harga;
-                $paketproduk->deskripsi = $request->deskripsi[$index];
-                $paketproduk->lama_hari = $request->lama_hari[$index];
-            
+            $paketproduk->harga = $harga;
+            $paketproduk->deskripsi = $request->deskripsi[$index];
+            $paketproduk->lama_hari = $request->lama_hari[$index];
+
             // $paketproduk->id_user = $id_pengguna;
             $paketproduk->id_produk = $produk->id;
             $paketproduk->save();
-            
         }
         Alert::success('Success', 'Data Produk berhasil di tambah')->flash();
         return redirect()->route('home_penyediajasa');
     }
-    public function update_produk(Request $request,$id_produk)
+    public function update_produk(Request $request, $id_produk)
     {
         // dump($request->all());
         if ($request->hasFile('gambar')) {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string|max:255',
-    
+
                 'id_paket' => 'required|array|min:1',
-    
-                'id_kategori' => 'required|exists:kategori_jasas,id',// Validation for Kategori Jasa
+
+                'id_kategori' => 'required|exists:kategori_jasas,id', // Validation for Kategori Jasa
                 'paket' => '|array', // Validation for paket
                 'paket.*' => 'required|in:silver,gold,diamond', // Ensure each certificate is a valid PDF
                 // Validation for deskripsi
                 'harga.*' => 'required|string|min:1', // Harga sebagai string karena masih mengandung titik
                 'lama_hari.*' => 'required|integer|min:1',
                 'deskripsi.*' => 'required|string',
-                 // Ensure each skill is a string
-                 'gambar'=>'required|mimes:jpg,png,jpeg|max:20000',
+                // Ensure each skill is a string
+                'gambar' => 'required|mimes:jpg,png,jpeg|max:20000',
             ]);
-
-        }else{
+        } else {
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string|max:255',
-    
+
                 'id_paket' => 'required|array|min:1',
-    
-                'id_kategori' => 'required|exists:kategori_jasas,id',// Validation for Kategori Jasa
+
+                'id_kategori' => 'required|exists:kategori_jasas,id', // Validation for Kategori Jasa
                 'paket' => '|array', // Validation for paket
                 'paket.*' => 'required|in:silver,gold,diamond', // Ensure each certificate is a valid PDF
                 // Validation for deskripsi
@@ -145,7 +144,7 @@ class PenyediaJasaController extends Controller
                 'deskripsi.*' => 'required|string', // Ensure each skill is a string
             ]);
         }
-        
+
         if ($validator->fails()) {
             $messages = $validator->errors()->all();
             Alert::error($messages)->flash();
@@ -163,7 +162,7 @@ class PenyediaJasaController extends Controller
 
             $request->file('gambar')->move(public_path() . '/produk', $fileName);
             $data->gambar = $fileName;
-             //mengupload file ke public/produk
+            //mengupload file ke public/produk
         }
 
         $data->save();
@@ -181,20 +180,63 @@ class PenyediaJasaController extends Controller
 
         Alert::success('Success', 'Data Produk berhasil di ubah')->flash();
         return redirect()->route('home_penyediajasa');
-   
-
     }
 
-    public function hapus_produk($id_produk) {
-        $data = Produk::find($id_produk);//mencari data berdasarkan id
-        $file = (public_path('/produk/' . $data->gambar));//mengambil lokasi file
-        if (file_exists($file)) {//jika file ada
-            @unlink($file);//menghapus file
+    public function hapus_produk($id_produk)
+    {
+        $data = Produk::find($id_produk); //mencari data berdasarkan id
+        $file = (public_path('/produk/' . $data->gambar)); //mengambil lokasi file
+        if (file_exists($file)) { //jika file ada
+            @unlink($file); //menghapus file
         }
 
         $data->paket()->delete();
-        $data->delete();//menghapus data
+        $data->delete(); //menghapus data
         Alert::success('Success', 'Data Berhasil di hapus')->flash();
         return redirect()->route('home_penyediajasa');
+    }
+
+
+    public function dashboard_penyedia()
+    {
+        $id_pengguna = auth()->user()->pengguna->id;
+        return view('penyediajasa.dashboard');
+    }
+
+
+    public function hapus_sertifikat($id)
+    {
+        $data = sertifikat::find($id);
+        $file = (public_path('/sertifikat/' . $data->sertifikat));
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+        $data->delete();
+        Alert::success('Success', 'Data Sertifikat berhasil di hapus')->flash();
+        return redirect()->route('profile');
+    }
+
+    public function tambah_sertifikat(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'sertifikat' => 'required|mimes:pdf|max:20000',
+        ]);
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::error($messages)->flash();
+            return back()->withErrors($validator)->withInput();
+        }
+        $data = new sertifikat();
+        $data->id_pengguna = auth()->user()->pengguna->id;
+        if ($request->hasFile('sertifikat')) {
+            $fileName = time() . '.' . $request->file('sertifikat')->getClientOriginalExtension(); //mengambil ekstensi file
+            $request->file('sertifikat')->move(public_path() . '/sertifikat', $fileName);
+            $data->sertif = $fileName;
+            # code...
+        }
+        // $data->sertif = $fileName;
+        $data->save();
+        Alert::success('Success', 'Data Sertifikat berhasil di tambah')->flash();
+        return redirect()->route('profile');
     }
 }

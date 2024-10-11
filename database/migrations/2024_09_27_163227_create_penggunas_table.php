@@ -22,6 +22,18 @@ return new class extends Migration
             $table->string('foto');
             $table->date('tgllahir');
             $table->string('no_rekening')->nullable();
+            $table->enum("jenis_rekening", [
+                'Bank Mandiri',
+                'BCA',
+                'BNI',
+                'BRI',
+                'BSI',
+                'GoPay',
+                'OVO',
+                'DANA',
+                'ShopeePay',
+                'LinkAja'
+            ]);
             $table->string('pendidikan_terakhir')->nullable();
             $table->unsignedBigInteger('id_user')->nullable();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');

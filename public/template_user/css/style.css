@@ -173,7 +173,7 @@ ol {
 
 .site-btn {
 	font-size: 14px;
-	color: #ffffff;
+	/* color: #ffffff; */
 	font-weight: 800;
 	text-transform: uppercase;
 	display: inline-block;

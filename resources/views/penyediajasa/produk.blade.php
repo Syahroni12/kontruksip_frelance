@@ -17,20 +17,7 @@
     <section class="hero">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
 
-                        </ul>
-                    </div>
-                </div>
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
@@ -47,12 +34,12 @@
                         <a href="{{ route('home_penyediajasa') }}" class="btn btn-primary">refresh</a>
                     </div>
                     <div class="hero__item set-bg" data-setbg="{{ asset('template_user/img/hero/banner.jpg') }}">
-                        <div class="hero__text">
+                        {{-- <div class="hero__text">
                             <span>FRUIT FRESH</span>
                             <h2>Vegetable <br />100% Organic</h2>
                             <p>Free Pickup and Delivery Available</p>
                             <a href="#" class="primary-btn">SHOP NOW</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

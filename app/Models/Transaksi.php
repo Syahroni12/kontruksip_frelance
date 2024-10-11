@@ -12,6 +12,7 @@ class Transaksi extends Model
     protected $guarded = ['id'];
     protected $table = 'transaksis';
 
+
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id');

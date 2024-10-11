@@ -24,18 +24,31 @@ use Illuminate\Support\Facades\Route;
     Route::get('/halaman_login', [App\Http\Controllers\AuthController::class, 'login_page'])->name('login')->middleware('guest');
     Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+    Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile')->middleware('auth');
+    Route::post('/profile_customeract', [App\Http\Controllers\AuthController::class, 'profile_customeract'])->name('profile_customeract')->middleware('auth');
+
 
 
 Route::get('/home_penyediajasa', [App\Http\Controllers\PenyediaJasaController::class, 'index'])->name('home_penyediajasa')->middleware('auth');
+Route::get('/dashboard', [App\Http\Controllers\PenyediaJasaController::class, 'dashboard_penyedia'])->name('dashboard_penyedia')->middleware('auth');
 Route::get('/tambah_produk', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_produk'])->name('tambah_produk')->middleware('auth');
 Route::get('/edit_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'edit_produk'])->name('edit_produk')->middleware('auth');
 Route::put('/update_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'update_produk'])->name('update_produk')->middleware('auth');
 Route::post('/tambah_produkact', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_produkact'])->name('tambah_produkact')->middleware('auth');
 Route::get('/hapus_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_produk'])->name('hapus_produk')->middleware('auth');
+Route::get('/hapus_sertifikat/{id}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_sertifikat'])->name('hapus_sertifikat')->middleware('auth');
+Route::post('/tambah_sertifikat', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_sertifikat'])->name('tambah_sertifikat')->middleware('auth');
 
 
 Route::get('/home_customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('home_customer')->middleware('auth');
+Route::get('/home_customerkategori/{id}', [App\Http\Controllers\CustomerController::class, 'indexkategori'])->name('home_customerkategori')->middleware('auth');
 Route::get('/cus_detailproduk/{id}', [App\Http\Controllers\CustomerController::class, 'cus_detailproduk'])->name('cus_detailproduk')->middleware('auth');
+Route::get('/checkout/{id}', [App\Http\Controllers\CustomerController::class, 'checkout'])->name('checkout')->middleware('auth');
+Route::post('/checkout-success', [App\Http\Controllers\CustomerController::class, 'checkoutact'])->name('checkoutact')->middleware('auth');
+Route::get('/halaman_ratingsemua', [App\Http\Controllers\CustomerController::class, 'halaman_rating_semua'])->name('halaman_rating semua')->middleware('auth');
+
+
+
 
 
 Route::get('/login_admin', [App\Http\Controllers\LoginAdminController::class, 'index'])->middleware('guest');

@@ -57,7 +57,8 @@
                                         <label for="deskripsi" class="form-label">Deskripsi Profil </label>
                                         {{-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                      --}}
-                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="4" class="form-control" placeholder="alamat">{{ old('deskripsi') }}</textarea>
+                                        <textarea name="deskripsi" id="deskripsi" cols="30" rows="4" class="form-control"
+                                            placeholder="Deskripsi Porfile">{{ old('deskripsi') }}</textarea>
                                     </div>
 
 
@@ -66,6 +67,21 @@
                                         <input type="number" class="form-control" id="no_rekening" name="no_rekening"
                                             aria-describedby="textHelp" value="{{ old('no_rekening') }}">
                                     </div>
+                                    <label for="jenis_rekening" class="form-label">Jenis Rekening</label>
+                                    <select id="jenis_rekening" class="form-select" name="jenis_rekening">
+                                        <option value="">-- Pilih Jenis Rekening --</option>
+                                        <option value="Bank Mandiri">Bank Mandiri</option>
+                                        <option value="BCA">BCA</option>
+                                        <option value="BNI">BNI</option>
+                                        <option value="BRI">BRI</option>
+                                        <option value="BSI">BSI</option>
+                                        <option value="GoPay">GoPay</option>
+                                        <option value="OVO">OVO</option>
+                                        <option value="DANA">DANA</option>
+                                        <option value="ShopeePay">ShopeePay</option>
+                                        <option value="LinkAja">LinkAja</option>
+                                    </select>
+
                                     <div class="mb-3">
                                         <label for="pendidikan_terakhir" class="form-label">Pendidikan Terakhir</label>
                                         <input type="text" class="form-control" id="pendidikan_terakhir"
@@ -144,8 +160,7 @@
                                         class="btn btn-primary w-100 py-8 fs-4 mb-4">Daftar</button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
-                                        <a class="text-primary fw-bold ms-2"
-                                            href="="{{ route('login_page') }}">Sign In</a>
+                                        <a class="text-primary fw-bold ms-2" href="{{ route('login') }}">Sign In</a>
                                     </div>
                                 </form>
                             </div>
