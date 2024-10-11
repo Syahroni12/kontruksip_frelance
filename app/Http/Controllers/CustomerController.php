@@ -9,9 +9,13 @@ use App\Models\PaketProduk;
 use App\Models\Pengguna;
 use App\Models\Produk;
 use App\Models\Keahlian;
+use App\Models\Raiting;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Midtrans\Snap;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerController extends Controller
 {
@@ -129,97 +133,98 @@ class CustomerController extends Controller
     }
 
     public function checkoutact(Request $request)
-{
-    // Validasi data yang masuk
-    $validatedData = $request->validate([
-        'id_paketproduk' => 'required|exists:paket_produks,id',
-        'tgl_awal' => 'required|date',
-        'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
-        'produk' => 'required|string',
-        'paket' => 'required|string',
-        'lama_hari' => 'required|integer',
-        'deskripsi' => 'required|string',
-        'total_harga' => 'required|integer',
-        'metode' => 'required|string',
-        'snap_token' => 'nullable|string',
-    ]);
+    {
+        // Validasi data yang masuk
+        $validatedData = $request->validate([
+            'id_paketproduk' => 'required|exists:paket_produks,id',
+            'tgl_awal' => 'required|date',
+            'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
+            'produk' => 'required|string',
+            'paket' => 'required|string',
+            'lama_hari' => 'required|integer',
+            'deskripsi' => 'required|string',
+            'total_harga' => 'required|integer',
+            'metode' => 'required|string',
+            'snap_token' => 'nullable|string',
+        ]);
 
-    try {
-        // Simpan data transaksi
-        $transaksi = new Transaksi();
-        $transaksi->id_pengguna = auth()->user()->pengguna->id;
-        $transaksi->tgl_awal = $request['tgl_awal'];
-        $transaksi->tgl_akhir = $request['tgl_akhir'];
-        $transaksi->total_harga = $request['total_harga'];
-        $transaksi->biaya_admin = $request['biaya_admin'] ?? 0; // Default ke 0 jika tidak ada biaya admin
-        $transaksi->metode = $request['metode'];
-        $transaksi->snap_token = $request['snap_token'];
-        $transaksi->status = 'Sudah bayar';
+        try {
+            // Simpan data transaksi
+            $transaksi = new Transaksi();
+            $transaksi->id_pengguna = auth()->user()->pengguna->id;
+            $transaksi->tgl_awal = $request['tgl_awal'];
+            $transaksi->tgl_akhir = $request['tgl_akhir'];
+            $transaksi->total_harga = $request['total_harga'];
+            $transaksi->biaya_admin = $request['biaya_admin'] ?? 0; // Default ke 0 jika tidak ada biaya admin
+            $transaksi->metode = $request['metode'];
+            $transaksi->snap_token = $request['snap_token'];
+            $transaksi->status = 'Sudah bayar';
 
-        $transaksi->save();
+            $transaksi->save();
 
-        // Mengambil data paket produk
-        $paket_produk = PaketProduk::with('produk')->findOrFail($request['id_paketproduk']);
-        $produk = $paket_produk->produk;
-        $gambar = $produk->gambar;
-        $asal = public_path('produk/' . $gambar);
-        $tujuan = public_path('produk_pesan/' . $gambar);
+            // Mengambil data paket produk
+            $paket_produk = PaketProduk::with('produk')->findOrFail($request['id_paketproduk']);
+            $produk = $paket_produk->produk;
+            $gambar = $produk->gambar;
+            $asal = public_path('produk/' . $gambar);
+            $tujuan = public_path('produk_pesan/' . $gambar);
 
-        // Buat direktori tujuan jika belum ada
-        if (!file_exists(public_path('produk_pesan/'))) {
-            mkdir(public_path('produk_pesan'), 0777, true);
-        }
-
-        // Cek dan salin gambar
-        if (file_exists($asal) && is_file($asal)) {
-            // Salin gambar ke direktori tujuan
-            if (copy($asal, $tujuan)) {
-                // Gambar berhasil disalin
-                // Simpan detail transaksi
-                $detail_transaksi = new detail_transaksi();
-                $detail_transaksi->id_transaksi = $transaksi->id;
-                $detail_transaksi->id_owner = $paket_produk->produk->id_pengguna;
-                $detail_transaksi->id_kategori = $paket_produk->produk->id_kategori;
-                $detail_transaksi->paket = $paket_produk->paket;
-                $detail_transaksi->produk = $paket_produk->produk->nama;
-                $detail_transaksi->gambar = $gambar; // Simpan nama file gambar
-                $detail_transaksi->lama_hari = $request['lama_hari'];
-                $detail_transaksi->deskripsi = $request['deskripsi'];
-                $detail_transaksi->save();
-            } else {
-                throw new \Exception('Gagal menyalin gambar ke direktori tujuan.');
+            // Buat direktori tujuan jika belum ada
+            if (!file_exists(public_path('produk_pesan/'))) {
+                mkdir(public_path('produk_pesan'), 0777, true);
             }
-        } else {
-            return response()->json(['error' => 'Gambar produk tidak ditemukan.'], 404);
-        }
 
-        return response()->json(['message' => 'Transaksi berhasil disimpan!']);
-    } catch (\Illuminate\Database\QueryException $e) {
-        // Penanganan kesalahan yang terkait dengan database
-        \Log::error('Database Error:', [
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ]);
-        return response()->json([
-            'error' => 'Kesalahan database terjadi. Silakan coba lagi nanti.',
-            'message' => $e->getMessage(),
-        ], 500);
-    } catch (\Exception $e) {
-        // Penanganan kesalahan umum
-        \Log::error('General Error:', [
-            'error' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ]);
-        return response()->json([
-            'error' => 'Terjadi kesalahan saat memproses transaksi.',
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ], 500);
+            // Cek dan salin gambar
+            if (file_exists($asal) && is_file($asal)) {
+                // Salin gambar ke direktori tujuan
+                if (copy($asal, $tujuan)) {
+                    // Gambar berhasil disalin
+                    // Simpan detail transaksi
+                    $detail_transaksi = new detail_transaksi();
+                    $detail_transaksi->id_transaksi = $transaksi->id;
+                    $detail_transaksi->id_paket = $paket_produk->id;
+                    $detail_transaksi->id_owner = $paket_produk->produk->id_pengguna;
+                    $detail_transaksi->id_kategori = $paket_produk->produk->id_kategori;
+                    $detail_transaksi->paket = $paket_produk->paket;
+                    $detail_transaksi->produk = $paket_produk->produk->nama;
+                    $detail_transaksi->gambar = $gambar; // Simpan nama file gambar
+                    $detail_transaksi->lama_hari = $request['lama_hari'];
+                    $detail_transaksi->deskripsi = $request['deskripsi'];
+                    $detail_transaksi->save();
+                } else {
+                    throw new \Exception('Gagal menyalin gambar ke direktori tujuan.');
+                }
+            } else {
+                return response()->json(['error' => 'Gambar produk tidak ditemukan.'], 404);
+            }
+
+            return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Penanganan kesalahan yang terkait dengan database
+            \Log::error('Database Error:', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            return response()->json([
+                'error' => 'Kesalahan database terjadi. Silakan coba lagi nanti.',
+                'message' => $e->getMessage(),
+            ], 500);
+        } catch (\Exception $e) {
+            // Penanganan kesalahan umum
+            \Log::error('General Error:', [
+                'error' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            return response()->json([
+                'error' => 'Terjadi kesalahan saat memproses transaksi.',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
     }
-}
 
 
 
@@ -227,7 +232,71 @@ class CustomerController extends Controller
     public function halaman_rating_semua()
     {
 
-        $transaksi = Transaksi::with('pengguna', 'PaketProduk', 'Raiting')->where('id_pengguna', auth()->user()->pengguna->id)->get();
-        return view('customer.halaman_rating_semua', compact('transaksi'));
+        $penggunaId = Auth::user()->id; // Mengambil id pengguna yang sedang login
+
+        $transaksis = Transaksi::with(['rating', 'detailTransaksi'])
+            ->where('id_pengguna', $penggunaId)
+            ->where('status', 'Selesai') // Filter berdasarkan pengguna yang login
+            ->whereDoesntHave('rating') // Menampilkan transaksi yang tidak memiliki rating
+            ->get();
+        return view('customer.halaman_rating_semua', compact('transaksis'));
+    }
+
+    public function ratingact(Request $request)
+    {
+        if ($request->hasFile('gambar')) {
+            $validator = Validator::make($request->all(), [
+                'ulasan' => 'required|string|max:255',
+
+                // 'alamat' => 'required', //validasi alamat
+                'rating' => 'required|numeric', //validasi no hp supaya angka ajaa
+                //validasi no hp supaya angka ajaa
+                'id_transaksi' => 'required|exists:transaksis,id',
+
+
+                'foto' => 'required|mimes:jpg,png,jpeg|max:10000',
+            ]);
+        } else {
+            $validator = Validator::make($request->all(), [
+                'ulasan' => 'required|string|max:255',
+                'id_transaksi' => 'required|exists:transaksis,id',
+                // 'alamat' => 'required', //validasi alamat
+                'rating' => 'required|numeric', //validasi no hp supaya angka ajaa
+                //validasi no hp supaya angka ajaa
+
+
+                // 'foto' => 'required|mimes:jpg,png,jpeg|max:10000',
+            ]);
+        }
+
+
+
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::error($messages)->flash();
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $ulasan = $request->ulasan;
+        $rating = $request->rating;
+        $data = new Raiting();
+        $data->ulasan = $ulasan;
+        $data->rating = $rating;
+        $data->id_transaksi = $request->id_transaksi;
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/ulasan'), $fileName);
+            $gambar = $fileName;
+        } else {
+            $gambar = null;
+        }
+
+        $data->file = $gambar;
+        $data->save();
+        Alert::success('Success', 'Berhasil raiting data')->flash();
+        return redirect()->route('halaman_ratingsemua');
+
+
     }
 }

@@ -10,4 +10,10 @@ class Raiting extends Model
     use HasFactory;
 
     protected $table = 'raitings';
+    protected $guarded = ['id'];
+
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'id_transaksi');
+    }
 }

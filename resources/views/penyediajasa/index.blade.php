@@ -169,7 +169,7 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            @if (Auth::user()->role == 'penyedia_jasa')
+                            @if (Auth::user()->akses == 'penyedia_jasa')
                             <li class="@if (Route::currentRouteName() == 'dashboard_penyedia') active @endif"><a
                                 href="{{ route('dashboard_penyedia') }}">Home</a></li>
                             @else
@@ -177,11 +177,25 @@
                                 href="{{ route('home_customer') }}">Home</a></li>
                             @endif
 
-                            @if (Auth::user()->role == 'penyedia_jasa')
+                            @if (Auth::user()->akses == 'penyedia_jasa')
                                 <li class=" @if (Route::currentRouteName() == 'home_penyediajasa') active @endif"><a
                                         href="{{ route('home_penyediajasa') }}">Produk</a></li>
 
                             @endif
+
+                            @if (Auth::user()->akses == 'customer')
+                                <li class=" @if (Route::currentRouteName() == 'halaman_rating_semua') active @endif"><a
+                                        href="{{ route('halaman_rating_semua') }}">Raiting</a></li>
+
+                            @endif
+
+                            {{-- @if (Auth::user()->akses == 'penyedia_jasa')
+                            <li class="@if (Route::currentRouteName() == 'dashboard_penyedia') active @endif"><a
+                                href="{{ route('dashboard_penyedia') }}">Home</a></li>
+                            @else
+                            <li class="@if (Route::currentRouteName() == 'home_customer') active @endif"><a
+                                href="{{ route('home_customer') }}">Home</a></li>
+                            @endif --}}
 
                             {{-- <li><a href="./shop-grid.html">Shop</a></li> --}}
                             {{-- <li><a href="#">Pages</a>

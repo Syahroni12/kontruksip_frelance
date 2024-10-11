@@ -22,7 +22,13 @@ class Transaksi extends Model
     {
         return $this->belongsTo(PaketProduk::class, 'id_produk', 'id');
     }
-    public function Raiting(){
-        return $this->hasMany(Raiting::class, 'id_transaksi', 'id');
+    public function rating(){
+        return $this->hasOne(Raiting::class, 'id_transaksi', 'id');
+    }
+
+
+    public function detailTransaksi()
+    {
+        return $this->hasOne(detail_transaksi::class, 'id_transaksi');
     }
 }
