@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text("ulasan");
             $table->integer("rating");
+            $table->string("file")->nullable();
             $table->unsignedBigInteger('id_transaksi')->nullable();
             $table->foreign('id_transaksi')->references('id')->on('transaksis')->onDelete('cascade');
             $table->timestamps();

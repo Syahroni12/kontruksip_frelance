@@ -53,7 +53,7 @@
                         </div>
                     </div>
 
-                    <button type="button" id="pay-button" class="site-btn">tambah</button>
+                    <button type="button" id="pay-button" class="site-btn">checout</button>
                 </form>
             </div>
         </div>

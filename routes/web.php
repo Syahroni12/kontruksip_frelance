@@ -45,7 +45,8 @@ Route::get('/home_customerkategori/{id}', [App\Http\Controllers\CustomerControll
 Route::get('/cus_detailproduk/{id}', [App\Http\Controllers\CustomerController::class, 'cus_detailproduk'])->name('cus_detailproduk')->middleware('auth');
 Route::get('/checkout/{id}', [App\Http\Controllers\CustomerController::class, 'checkout'])->name('checkout')->middleware('auth');
 Route::post('/checkout-success', [App\Http\Controllers\CustomerController::class, 'checkoutact'])->name('checkoutact')->middleware('auth');
-Route::get('/halaman_ratingsemua', [App\Http\Controllers\CustomerController::class, 'halaman_rating_semua'])->name('halaman_rating semua')->middleware('auth');
+Route::get('/halaman_ratingsemua', [App\Http\Controllers\CustomerController::class, 'halaman_rating_semua'])->name('halaman_rating_semua')->middleware('auth');
+Route::post('/rating', [App\Http\Controllers\CustomerController::class, 'ratingact'])->name('ratingact')->middleware('auth');
 
 
 
