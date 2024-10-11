@@ -19,6 +19,10 @@ protected $guarded='id';
     {
         return $this->belongsTo(User::class, 'id_user');
     }
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriJasa::class, 'id_kategori','id');
+    }
     public function sertif()
     {
         return $this->hasMany(sertifikat::class, 'id_user');

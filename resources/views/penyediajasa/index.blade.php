@@ -1,6 +1,73 @@
 @include('templating_user.header')
 
 <body>
+
+    <style>
+        .profile-img {
+            width: 40px;
+            /* Atur lebar gambar */
+            height: 40px;
+            /* Atur tinggi gambar agar sama dengan lebar */
+            border-radius: 50%;
+            /* Membuat gambar menjadi bundar */
+            object-fit: cover;
+            /* Memastikan gambar tetap proporsional */
+        }
+
+        .dropdown {
+            position: relative;
+            /* Penting untuk posisi dropdown */
+            display: inline-block;
+            /* Agar dropdown bersebelahan dengan gambar dan nama */
+        }
+
+        .profile-img {
+            width: 40px;
+            /* Atur lebar gambar */
+            height: 40px;
+            /* Atur tinggi gambar agar sama dengan lebar */
+            border-radius: 50%;
+            /* Membuat gambar menjadi bundar */
+            object-fit: cover;
+            /* Memastikan gambar tetap proporsional */
+        }
+
+        .dropdown-content {
+            display: none;
+            /* Tersembunyi secara default */
+            position: absolute;
+            /* Menempatkan dropdown di bawah elemen yang di-hover */
+            background-color: white;
+            /* Warna latar belakang dropdown */
+            min-width: 160px;
+            /* Lebar minimum dropdown */
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            /* Bayangan untuk dropdown */
+            z-index: 1;
+            /* Menjaga agar dropdown muncul di atas elemen lain */
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            /* Menampilkan dropdown saat di-hover */
+        }
+
+        .dropdown-content a {
+            color: black;
+            /* Warna teks link */
+            padding: 12px 16px;
+            /* Padding untuk link */
+            text-decoration: none;
+            /* Menghapus garis bawah */
+            display: block;
+            /* Membuat link menjadi blok sehingga area klik lebih besar */
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            /* Mengubah latar belakang saat hover pada link */
+        }
+    </style>
     <!-- Page Preloder -->
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -29,11 +96,11 @@
                 <a href="#"><i class="fa fa-user"></i></a>
             </div>
         </div>
-        <nav class="humberger__menu__nav mobile-menu">
+        {{-- <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="">Produk</a></li>
-                {{-- <li><a href="#">Pages</a>
+                <li><a href="">Produk</a></li> --}}
+        {{-- <li><a href="#">Pages</a>
                  <ul class="header__menu__dropdown">
                      <li><a href="./shop-details.html">Shop Details</a></li>
                      <li><a href="./shoping-cart.html">Shoping Cart</a></li>
@@ -41,10 +108,10 @@
                      <li><a href="./blog-details.html">Blog Details</a></li>
                  </ul>
              </li> --}}
-                {{-- <li><a href="./blog.html">Blog</a></li> --}}
-                <li><a href="">Profile</a></li>
+        {{-- <li><a href="./blog.html">Blog</a></li> --}}
+        {{-- <li><a href="">Profile</a></li>
             </ul>
-        </nav>
+        </nav> --}}
         <div id="mobile-menu-wrap"></div>
 
         <div class="humberger__menu__contact">
@@ -64,8 +131,8 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
                             <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
+                                <li><i class="fa fa-envelope"></i>{{ Auth::user()->email }}</li>
+                                {{-- @dd(Auth::user()->pengguna->foto) --}}
                             </ul>
                         </div>
                     </div>
@@ -74,8 +141,18 @@
 
 
                             <div class="header__top__right__auth">
-                                <a href="#"><img src="img/language.png" alt=""></i>{{ Auth::user()->email }}</a>
+                                <div class="dropdown">
+                                    <img src="{{ asset('foto_profile/' . Auth::user()->pengguna->foto) }}"
+                                        class="profile-img" id="profileDropdown">
+                                    <span>{{ Auth::user()->pengguna->nama }}</span>
+                                    <div class="dropdown-content">
+                                        <a href="{{ route('profile') }}" class="text-left">Profil</a>
+                                        {{-- <a href="#"  class="text-left">Pengaturan</a> --}}
+                                        <a class="text-left" onclick="keluar()">Keluar</a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -92,18 +169,39 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./shop-grid.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
+                            @if (Auth::user()->role == 'penyedia_jasa')
+                            <li class="@if (Route::currentRouteName() == 'dashboard_penyedia') active @endif"><a
+                                href="{{ route('dashboard_penyedia') }}">Home</a></li>
+                            @else
+                            <li class="@if (Route::currentRouteName() == 'home_customer') active @endif"><a
+                                href="{{ route('home_customer') }}">Home</a></li>
+                            @endif
+
+                            @if (Auth::user()->role == 'penyedia_jasa')
+                                <li class=" @if (Route::currentRouteName() == 'home_penyediajasa') active @endif"><a
+                                        href="{{ route('home_penyediajasa') }}">Produk</a></li>
+
+                            @endif
+
+                            {{-- <li><a href="./shop-grid.html">Shop</a></li> --}}
+                            {{-- <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>
                                     <li><a href="./shoping-cart.html">Shoping Cart</a></li>
                                     <li><a href="./checkout.html">Check Out</a></li>
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+
+                            <li class="@if (Route::currentRouteName() == 'profile') active @endif">
+                                <a href="{{ route('profile') }}" >
+                                    Profile
+                                </a>
+                            </li>
+
+
+
                         </ul>
                     </nav>
                 </div>
@@ -128,18 +226,7 @@
     <!-- Banner Begin -->
     <div class="banner">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="{{ asset('template_user/') }}img/banner/banner-1.jpg" alt="">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="banner__pic">
-                        <img src="{{ asset('template_user/') }}img/banner/banner-2.jpg" alt="">
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <!-- Banner End -->
@@ -186,13 +273,36 @@
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
-                        <div class="footer__copyright__payment"><img
-                                src="{{ asset('template_user/') }}img/payment-item.png" alt=""></div>
+
                     </div>
                 </div>
             </div>
-        </div>
     </footer>
+    <script>
+        function keluar() {
+            Swal.fire({
+                title: "Apakah Kamu Yakin?",
+                text: "Apakah Kamu Yakin Ingin Keluar?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "Batal",
+                confirmButtonText: "Ya"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // console.log(id);
+                    window.location.href = `/logout`;
+                    // window.location.href = "/selesaikan/".itemId "";
+                    // Swal.fire({
+                    //     title: "Deleted!",
+                    //     text: "Your file has been deleted.",
+                    //     icon: "success"
+                    // });
+                }
+            });
+        }
+    </script>
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
