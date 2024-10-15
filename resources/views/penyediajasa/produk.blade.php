@@ -18,20 +18,19 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-9">
+                <div class="col-lg-9 me-auto">
                     <div class="hero__search">
                         <div class="hero__search__form">
                             <form action="" method="GET">
 
-                                <input type="text" placeholder="What do yo u need?" name="search"
-                                    {{ Request()->search }}>
+                                <input type="text" placeholder="What do yo u need?" name="search" {{ Request()->search }}>
                                 <div class="input-group-append">
                                     <button type="submit" class="site-btn">SEARCH</button>
                                 </div>
                             </form>
                         </div>
 
-                        <a href="{{ route('home_penyediajasa') }}" class="btn btn-primary">refresh</a>
+                        <a href="{{ route('home_penyediajasa') }}" class="btn btn-primary ms-3 mb-2">refresh</a>
                     </div>
                     <div class="hero__item set-bg" data-setbg="{{ asset('template_user/img/hero/banner.jpg') }}">
                         {{-- <div class="hero__text">
@@ -112,6 +111,9 @@
 
 
             </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            {{ $data->links() }}
         </div>
     </section>
 

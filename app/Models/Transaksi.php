@@ -12,6 +12,17 @@ class Transaksi extends Model
     protected $guarded = ['id'];
     protected $table = 'transaksis';
 
+    // Pastikan bagian ini tidak dikomentari
+    protected $fillable = [
+        'id_pengguna',
+        'tgl_awal',
+        'tgl_akhir',
+        'biaya_admin',
+        'total_harga',
+        'metode',
+        'snap_token',
+        'status'  // Pastikan 'status' bisa diisi (fillable)
+    ];
 
     public function pengguna()
     {
@@ -22,13 +33,19 @@ class Transaksi extends Model
     {
         return $this->belongsTo(PaketProduk::class, 'id_produk', 'id');
     }
-    public function rating(){
+
+    public function rating()
+    {
         return $this->hasOne(Raiting::class, 'id_transaksi', 'id');
     }
 
-
-    public function detailTransaksi()
+    public function Detail_transaksi()
     {
-        return $this->hasOne(detail_transaksi::class, 'id_transaksi');
+        return $this->hasOne(DetailTransaksi ::class, 'id_transaksi', 'id');
+    }
+
+    public function chat()
+    {
+        return $this->hasMany(Chat::class, 'id_transaksi', 'id');
     }
 }

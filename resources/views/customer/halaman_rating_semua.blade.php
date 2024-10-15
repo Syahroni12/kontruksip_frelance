@@ -22,15 +22,15 @@
 
             <div class="d-flex align-items-center mt-4">
                 <!-- Gambar Profil -->
-                <div class="me-3">
-                    <img src="{{ asset('foto_profile/' . $item->detailTransaksi->owner->foto) }}" class="rounded-circle"
+                <div class="mb-3 mt-3">
+                    <img src="{{ asset('foto_profile/' . $item->Detail_transaksi->owner->foto) }}" class="rounded-circle"
                         alt="Profile Image" style="width: 50px; height: 50px;">
                 </div>
 
 
                 <!-- Detail Profil -->
                 <div>
-                    <h5 class="mb-0">{{ $item->detailTransaksi->owner->foto }}</h5>
+                    <h5 class="mb-0 mt-3"  >{{ $item->Detail_transaksi->owner->foto }}</h5>
                     <div class="d-flex align-items-center mt-1">
                         <span class="text-dark me-2">
                             <i class="fas fa-star text-warning"></i> <strong>5.0</strong> (29)
@@ -46,15 +46,15 @@
                 <div class="card mb-4">
                     <div class="row g-0">
                         <div class="col-md-2">
-                            <img src="{{ asset('produk_pesan/' . $item->detailTransaksi->gambar) }}" class="img-fluid"
+                            <img src="{{ asset('produk_pesan/' . $item->Detail_transaksi->gambar) }}" class="img-fluid"
                                 alt="..." style="width: 150px; height: auto;">
                         </div>
                         <div class="col-md-5">
                             <div class="card-body text-start"> <!-- Mengatur teks ke kiri -->
-                                <h5>Produk: {{ $item->detailTransaksi->produk }}</h5>
-                                <h5>Paket: {{ $item->detailTransaksi->paket }}</h5>
-                                <p>Kategori: {{ $item->detailTransaksi->kategori->kategori }}</p>
-                                <p>Harga: {{ number_format($item->detailTransaksi->harga) }}</p>
+                                <h5>Produk: {{ $item->Detail_transaksi->produk }}</h5>
+                                <h5>Paket: {{ $item->Detail_transaksi->paket }}</h5>
+                                <p>Kategori: {{ $item->Detail_transaksi->kategori->kategori }}</p>
+                                <p>Harga: {{ number_format($item->Detail_transaksi->harga) }}</p>
                             </div>
                         </div>
                         <div class="col-md-5 d-flex flex-column">

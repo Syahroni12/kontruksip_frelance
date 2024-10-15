@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pengguna;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -23,16 +24,33 @@ class UpdateTransactionStatus extends Command
     public function handle()
     {
         // Ambil semua transaksi yang tgl_akhir kurang dari tanggal sekarang
-        $transactions = Transaksi::where('tgl_akhir', '<', Carbon::now())
-            ->where('status', '!=', 'Selesai') // Menghindari update pada transaksi yang sudah 'Selesai'
+        $transactions = Transaksi::with('Detail_transaksi')
+            ->where('tgl_akhir', '<', Carbon::now())
+            ->where('status', 'Sedang konsultasi')
             ->get();
 
         foreach ($transactions as $transaction) {
-            $transaction->status = 'Selesai'; // Ubah status sesuai kebutuhan
-            $transaction->save();
-            $this->info('Updated status for transaction ID: ' . $transaction->id);
-        }
+            $totalHarga = 0;
 
-        $this->info('Transaction status update completed.');
+            // Ambil detail transaksi untuk setiap transaksi
+            $detail = $transaction->Detail_transaksi; // Mengambil satu detail transaksi
+
+            if ($detail) { // Memastikan detail transaksi ditemukan
+                // Proses saldo pengguna
+                $owner = Pengguna::find($detail->id_owner);
+                if ($owner) {
+                    $owner->saldo += $detail->harga;
+                    $owner->save();
+                }
+
+                // Ubah status transaksi menjadi 'Selesai'
+                $transaction->status = "Selesai";
+                $transaction->save();
+                $this->info('Updated status for transaction ID: ' . $transaction->id);
+            } else {
+                $this->info('No detail found for transaction ID: ' . $transaction->id);
+                // dd("dksdksd");
+            }
+        }
     }
 }

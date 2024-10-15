@@ -20,16 +20,17 @@ return new class extends Migration
             $table->integer("harga")->default(0);
             $table->string("gambar")->nullable();
             $table->unsignedBigInteger("id_kategori")->default(0);
-            $table->unsignedBigInteger('id_paket')->nullable()->change();
             $table->unsignedBigInteger('id_owner');
-            $table->foreign('id_owner')->references('id')->on('penggunas')->onDelete('cascade');
             $table->unsignedBigInteger('id_transaksi')->nullable();
+            $table->unsignedBigInteger('id_paket')->nullable(); // Hilangkan ->change()
+
+            // Foreign key constraints
+            $table->foreign('id_owner')->references('id')->on('penggunas')->onDelete('cascade');
             $table->foreign('id_transaksi')->references('id')->on('transaksis')->onDelete('cascade');
             $table->foreign('id_kategori')->references('id')->on('kategori_jasas')->onDelete('cascade');
             $table->foreign('id_paket')
-            ->references('id')
-            ->on('paket_produks')
-            ->onDelete('set null'); // Mengatur nilai kolom menjadi null saat dihapus
+                  ->references('id')->on('paket_produks')
+                  ->onDelete('set null'); // Mengatur nilai kolom menjadi null saat dihapus
 
             $table->timestamps();
         });
