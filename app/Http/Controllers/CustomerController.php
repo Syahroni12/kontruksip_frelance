@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\detail_transaksi;
+use App\Models\DetailTransaksi;
 use App\Models\KategoriJasa;
 use App\Models\PaketProduk;
 use App\Models\Pengguna;
@@ -11,6 +12,7 @@ use App\Models\Produk;
 use App\Models\Keahlian;
 use App\Models\Raiting;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +27,7 @@ class CustomerController extends Controller
         $id_pengguna = Pengguna::where('id_user', auth()->user()->id)->value('id');
         // $id_pengguna=Pengguna::where('id_user',auth()->user()->id)->first();
 
-        $data = Produk::with(['kategori', 'paket'])
+        $data = Produk::with(['kategori', 'paket', 'pengguna'])
             ->where(function ($query) use ($request) {
                 $query->where('nama', 'like', '%' . $request->search . '%') // Pencarian berdasarkan nama produk
                     ->orWhereHas('kategori', function ($queryKategori) use ($request) {
@@ -63,6 +65,8 @@ class CustomerController extends Controller
 
     public function cus_detailproduk($id)
     {
+        $biaya_admin = 500;
+        $penanganan = 500;
         $produk = Produk::with('kategori')->where('id', $id)->first();
         $pengguna = Pengguna::with('kategori')->where('id', $produk->id_pengguna)->first();
         $keahlian = Keahlian::where('id_pengguna', $pengguna->id)->get();
@@ -70,7 +74,7 @@ class CustomerController extends Controller
         $gold = PaketProduk::where('id_produk', $id)->where('paket', 'gold')->first();
         $diamond = PaketProduk::where('id_produk', $id)->where('paket', 'diamond')->first();
 
-        return view('customer.detail_produk', compact('produk', 'pengguna', 'silver', 'gold', 'diamond', 'keahlian'));
+        return view('customer.detail_produk', compact('produk', 'pengguna', 'silver', 'gold', 'diamond', 'keahlian', 'biaya_admin', 'penanganan'));
     }
 
 
@@ -81,6 +85,9 @@ class CustomerController extends Controller
         \Midtrans\Config::$isProduction = config('midtrans.isProduction');
         \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
         \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+
+
         // Set your Merchant Server Key
         // \Midtrans\Config::$serverKey = 'SB-Mid-server-uW80LNTtqEw17-UbwSH4BLZl';
         // // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -95,10 +102,6 @@ class CustomerController extends Controller
         // Menghitung 10% dari harga
         $biaya_admin = 500;
         $total_harga = $paket_produk->harga + $sepuluh_persen + $biaya_admin;
-
-        // dump( "10% dari harga adalah: Rp " . number_format($sepuluh_persen));
-        // dump($biaya_admin);
-        // $total_harga = $total_harga + $biaya_admin;
         $transactionDetails = [
             'order_id' => uniqid(), // Order ID sementara, bisa UUID atau random unique string
             'gross_amount' => $total_harga, // Jumlah yang akan dibayar (misal dari cart)
@@ -111,14 +114,7 @@ class CustomerController extends Controller
             'phone' => $customer->notelp,
         ];
 
-        // Customer info
-        // $pengguna
-        // $customerDetails = [
-        //     'first_name' => 'John',
-        //     'last_name' => 'Doe',
-        //     'email' => 'john.doe@example.com',
-        //     'phone' => '08123456789',
-        // ];
+
 
         // Buat parameter yang akan dikirim ke Midtrans untuk Snap Token
         $transaction = [
@@ -128,42 +124,28 @@ class CustomerController extends Controller
 
         // Request token dari Midtrans
         $snap_token = Snap::getSnapToken($transaction);
+        $sekarang = Carbon::now();
+        $tanggal_awal = Carbon::parse($sekarang)->format('Y-m-d');
+        $tgl_akhir = $sekarang->addDays($paket_produk->lama_hari);
+        $akhir = Carbon::parse($tgl_akhir)->format('Y-m-d');
 
-        return view('customer.checkout', compact('snap_token', 'paket_produk', 'total_harga', 'sepuluh_persen', 'biaya_admin'));
-    }
-
-    public function checkoutact(Request $request)
-    {
-        // Validasi data yang masuk
-        $validatedData = $request->validate([
-            'id_paketproduk' => 'required|exists:paket_produks,id',
-            'tgl_awal' => 'required|date',
-            'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
-            'produk' => 'required|string',
-            'paket' => 'required|string',
-            'lama_hari' => 'required|integer',
-            'deskripsi' => 'required|string',
-            'total_harga' => 'required|integer',
-            'metode' => 'required|string',
-            'snap_token' => 'nullable|string',
-        ]);
-
+        // dump($tgl_akhir);
         try {
             // Simpan data transaksi
             $transaksi = new Transaksi();
             $transaksi->id_pengguna = auth()->user()->pengguna->id;
-            $transaksi->tgl_awal = $request['tgl_awal'];
-            $transaksi->tgl_akhir = $request['tgl_akhir'];
-            $transaksi->total_harga = $request['total_harga'];
-            $transaksi->biaya_admin = $request['biaya_admin'] ?? 0; // Default ke 0 jika tidak ada biaya admin
-            $transaksi->metode = $request['metode'];
-            $transaksi->snap_token = $request['snap_token'];
-            $transaksi->status = 'Sudah bayar';
+            $transaksi->tgl_awal = $tanggal_awal;
+            $transaksi->tgl_akhir = $akhir;
+            $transaksi->total_harga = $total_harga;
+            $transaksi->biaya_admin = $biaya_admin; // Default ke 0 jika tidak ada biaya admin
+            // $transaksi->metode = $request['metode'];
+            $transaksi->snap_token = $snap_token;
+            $transaksi->status = 'Belum dikonfirmasi';
 
             $transaksi->save();
 
             // Mengambil data paket produk
-            $paket_produk = PaketProduk::with('produk')->findOrFail($request['id_paketproduk']);
+            $paket_produk = PaketProduk::with('produk')->findOrFail($id);
             $produk = $paket_produk->produk;
             $gambar = $produk->gambar;
             $asal = public_path('produk/' . $gambar);
@@ -180,51 +162,154 @@ class CustomerController extends Controller
                 if (copy($asal, $tujuan)) {
                     // Gambar berhasil disalin
                     // Simpan detail transaksi
-                    $detail_transaksi = new detail_transaksi();
+                    $detail_transaksi = new DetailTransaksi();
                     $detail_transaksi->id_transaksi = $transaksi->id;
                     $detail_transaksi->id_paket = $paket_produk->id;
+                    $detail_transaksi->harga = $paket_produk->harga;
                     $detail_transaksi->id_owner = $paket_produk->produk->id_pengguna;
                     $detail_transaksi->id_kategori = $paket_produk->produk->id_kategori;
                     $detail_transaksi->paket = $paket_produk->paket;
                     $detail_transaksi->produk = $paket_produk->produk->nama;
                     $detail_transaksi->gambar = $gambar; // Simpan nama file gambar
-                    $detail_transaksi->lama_hari = $request['lama_hari'];
-                    $detail_transaksi->deskripsi = $request['deskripsi'];
+                    $detail_transaksi->lama_hari = $paket_produk->lama_hari;
+                    $detail_transaksi->deskripsi = $paket_produk->deskripsi;
                     $detail_transaksi->save();
                 } else {
-                    throw new \Exception('Gagal menyalin gambar ke direktori tujuan.');
+                    // throw new \Exception('Gagal menyalin gambar ke direktori tujuan.');
+                    Alert::error('Gagal', 'Gagal menyalin gambar ke direktori tujuan.')->flash();
+                    return redirect()->back();
                 }
             } else {
-                return response()->json(['error' => 'Gambar produk tidak ditemukan.'], 404);
+                // return response()->json(['error' => 'Gambar produk tidak ditemukan.'], 404);
+                Alert::error('Gagal', 'Gambar produk tidak ditemukan.')->flash();
+                return redirect()->back();
             }
 
-            return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+            // return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+            Alert::success('Berhasil', 'Transaksi berhasil disimpan!')->flash();
+
+            return redirect()->back();
         } catch (\Illuminate\Database\QueryException $e) {
             // Penanganan kesalahan yang terkait dengan database
-            \Log::error('Database Error:', [
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-            return response()->json([
-                'error' => 'Kesalahan database terjadi. Silakan coba lagi nanti.',
-                'message' => $e->getMessage(),
-            ], 500);
-        } catch (\Exception $e) {
-            // Penanganan kesalahan umum
-            \Log::error('General Error:', [
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-            return response()->json([
-                'error' => 'Terjadi kesalahan saat memproses transaksi.',
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ], 500);
+            Alert::error('Gagal', $e->getMessage())->flash();
+
+            return redirect()->back();
         }
+        // dump( "10% dari harga adalah: Rp " . number_format($sepuluh_persen));
+        // dump($biaya_admin);
+        // $total_harga = $total_harga + $biaya_admin;
+
+
+        // return view('customer.checkout', compact('snap_token', 'paket_produk', 'total_harga', 'sepuluh_persen', 'biaya_admin'));
     }
+
+    public function checkoutact(Request $request)
+
+    {
+        $validatedData = $request->validate([
+            'id_transaksi' => 'required|exists:transaksis,id',
+            'snap_token' => 'required|string',
+            'metode' => 'required|string',
+        ]);
+
+        $transaksi = Transaksi::findOrFail($request->id_transaksi);
+        $transaksi->snap_token = $request->snap_token;
+        $transaksi->metode = $request->metode;
+        $transaksi->status = 'Sedang konsultasi';
+        $transaksi->save();
+        return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+    }
+    //     // Validasi data yang masuk
+    //     $validatedData = $request->validate([
+    //         'id_paketproduk' => 'required|exists:paket_produks,id',
+    //         'tgl_awal' => 'required|date',
+    //         'tgl_akhir' => 'required|date|after_or_equal:tgl_awal',
+    //         'produk' => 'required|string',
+    //         'paket' => 'required|string',
+    //         'lama_hari' => 'required|integer',
+    //         'deskripsi' => 'required|string',
+    //         'total_harga' => 'required|integer',
+    //         'metode' => 'required|string',
+    //         'snap_token' => 'nullable|string',
+    //     ]);
+
+    //     try {
+    //         // Simpan data transaksi
+    //         $transaksi = new Transaksi();
+    //         $transaksi->id_pengguna = auth()->user()->pengguna->id;
+    //         $transaksi->tgl_awal = $request['tgl_awal'];
+    //         $transaksi->tgl_akhir = $request['tgl_akhir'];
+    //         $transaksi->total_harga = $request['total_harga'];
+    //         $transaksi->biaya_admin = $request['biaya_admin'] ?? 0; // Default ke 0 jika tidak ada biaya admin
+    //         $transaksi->metode = $request['metode'];
+    //         $transaksi->snap_token = $request['snap_token'];
+    //         $transaksi->status = 'Sudah bayar';
+
+    //         $transaksi->save();
+
+    //         // Mengambil data paket produk
+    //         $paket_produk = PaketProduk::with('produk')->findOrFail($request['id_paketproduk']);
+    //         $produk = $paket_produk->produk;
+    //         $gambar = $produk->gambar;
+    //         $asal = public_path('produk/' . $gambar);
+    //         $tujuan = public_path('produk_pesan/' . $gambar);
+
+    //         // Buat direktori tujuan jika belum ada
+    //         if (!file_exists(public_path('produk_pesan/'))) {
+    //             mkdir(public_path('produk_pesan'), 0777, true);
+    //         }
+
+    //         // Cek dan salin gambar
+    //         if (file_exists($asal) && is_file($asal)) {
+    //             // Salin gambar ke direktori tujuan
+    //             if (copy($asal, $tujuan)) {
+    //                 // Gambar berhasil disalin
+    //                 // Simpan detail transaksi
+    //                 $detail_transaksi = new detail_transaksi();
+    //                 $detail_transaksi->id_transaksi = $transaksi->id;
+    //                 $detail_transaksi->id_paket = $paket_produk->id;
+    //                 $detail_transaksi->id_owner = $paket_produk->produk->id_pengguna;
+    //                 $detail_transaksi->id_kategori = $paket_produk->produk->id_kategori;
+    //                 $detail_transaksi->paket = $paket_produk->paket;
+    //                 $detail_transaksi->produk = $paket_produk->produk->nama;
+    //                 $detail_transaksi->gambar = $gambar; // Simpan nama file gambar
+    //                 $detail_transaksi->lama_hari = $request['lama_hari'];
+    //                 $detail_transaksi->deskripsi = $request['deskripsi'];
+    //                 $detail_transaksi->save();
+    //             } else {
+    //                 throw new \Exception('Gagal menyalin gambar ke direktori tujuan.');
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'Gambar produk tidak ditemukan.'], 404);
+    //         }
+
+    //         return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         // Penanganan kesalahan yang terkait dengan database
+    //         \Log::error('Database Error:', [
+    //             'error' => $e->getMessage(),
+    //             'file' => $e->getFile(),
+    //             'line' => $e->getLine(),
+    //         ]);
+    //         return response()->json([
+    //             'error' => 'Kesalahan database terjadi. Silakan coba lagi nanti.',
+    //             'message' => $e->getMessage(),
+    //         ], 500);
+    //     } catch (\Exception $e) {
+    //         // Penanganan kesalahan umum
+    //         \Log::error('General Error:', [
+    //             'error' => $e->getMessage(),
+    //             'file' => $e->getFile(),
+    //             'line' => $e->getLine(),
+    //         ]);
+    //         return response()->json([
+    //             'error' => 'Terjadi kesalahan saat memproses transaksi.',
+    //             'message' => $e->getMessage(),
+    //             'file' => $e->getFile(),
+    //             'line' => $e->getLine(),
+    //         ], 500);
+    //     }
+    // }
 
 
 
@@ -234,12 +319,27 @@ class CustomerController extends Controller
 
         $penggunaId = Auth::user()->id; // Mengambil id pengguna yang sedang login
 
-        $transaksis = Transaksi::with(['rating', 'detailTransaksi'])
+        $transaksis = Transaksi::with(['rating', 'Detail_transaksi'])
             ->where('id_pengguna', $penggunaId)
             ->where('status', 'Selesai') // Filter berdasarkan pengguna yang login
             ->whereDoesntHave('rating') // Menampilkan transaksi yang tidak memiliki rating
             ->get();
+        // dump($transaksis);
         return view('customer.halaman_rating_semua', compact('transaksis'));
+    }
+    public function belum_konfirmasi()
+    {
+
+        $penggunaId = auth()->user()->pengguna->id; // Mengambil id pengguna yang sedang login
+        // dd($penggunaId);
+        $transaksis = Transaksi::with('Detail_transaksi')
+            ->where('id_pengguna', $penggunaId)
+            ->whereIn('status', ['Belum dikonfirmasi', 'Dikonfirmasi']) // Filter berdasarkan pengguna yang login
+            // ->whereDoesntHave('rating') // Menampilkan transaksi yang tidak memiliki rating
+            ->get();
+        // dump($transaksis);
+        // dd($transaksis);
+        return view('customer.belum_konfirmasi', compact('transaksis'));
     }
 
     public function ratingact(Request $request)
@@ -296,7 +396,5 @@ class CustomerController extends Controller
         $data->save();
         Alert::success('Success', 'Berhasil raiting data')->flash();
         return redirect()->route('halaman_ratingsemua');
-
-
     }
 }

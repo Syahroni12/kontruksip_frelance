@@ -38,4 +38,10 @@ protected $guarded='id';
     public function transaksi() {
         return $this->hasMany(Transaksi::class, 'id_pengguna', 'id');
     }
+    public function detailTransaksi() {
+        return $this->hasMany(DetailTransaksi ::class, 'id_owner', 'id');
+    }
+    public function chats() {
+        return $this->hasMany(Raiting::class, 'id_pengguna', 'id');
+    }
 }

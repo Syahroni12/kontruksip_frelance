@@ -147,6 +147,10 @@
                                     <span>{{ Auth::user()->pengguna->nama }}</span>
                                     <div class="dropdown-content">
                                         <a href="{{ route('profile') }}" class="text-left">Profil</a>
+                                        @if (Auth::user()->akses == 'penyedia_jasa')
+
+                                        <a href="{{ route('bukatutup') }}" class="text-left">Status Toko ({{ Auth::user()->pengguna->status_toko }})</a>
+                                        @endif
                                         {{-- <a href="#"  class="text-left">Pengaturan</a> --}}
                                         <a class="text-left" onclick="keluar()">Keluar</a>
                                     </div>
@@ -166,12 +170,12 @@
                         <a href="./index.html"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12 text-center">
                     <nav class="header__menu">
                         <ul>
                             @if (Auth::user()->akses == 'penyedia_jasa')
                             <li class="@if (Route::currentRouteName() == 'dashboard_penyedia') active @endif"><a
-                                href="{{ route('dashboard_penyedia') }}">Home</a></li>
+                                href="{{ route('dashboard_penyedia') }}" class="text-decoration-none">Home</a></li>
                             @else
                             <li class="@if (Route::currentRouteName() == 'home_customer') active @endif"><a
                                 href="{{ route('home_customer') }}">Home</a></li>
@@ -185,8 +189,14 @@
 
                             @if (Auth::user()->akses == 'customer')
                                 <li class=" @if (Route::currentRouteName() == 'halaman_rating_semua') active @endif"><a
-                                        href="{{ route('halaman_rating_semua') }}">Raiting</a></li>
+                                        href="{{ route('halaman_rating_semua') }}" class="text-decoration-none">Rating</a></li>
+                                <li class=" @if (Route::currentRouteName() == 'belum_konfirmasi') active @endif"><a
+                                        href="{{ route('belum_konfirmasi') }}" class="text-decoration-none">Belum konfirmasi</a></li>
 
+                            @endif
+                            @if (Auth::user()->akses == 'penyedia_jasa')
+                            <li class=" @if (Route::currentRouteName() == 'belum_konfirmasii') active @endif"><a
+                                href="{{ route('belum_konfirmasii') }}" class="text-decoration-none">Belum konfirmasi</a></li>
                             @endif
 
                             {{-- @if (Auth::user()->akses == 'penyedia_jasa')
@@ -209,7 +219,7 @@
                             <li><a href="./blog.html">Blog</a></li>
 
                             <li class="@if (Route::currentRouteName() == 'profile') active @endif">
-                                <a href="{{ route('profile') }}" >
+                                <a href="{{ route('profile') }}" class="text-decoration-none">
                                     Profile
                                 </a>
                             </li>

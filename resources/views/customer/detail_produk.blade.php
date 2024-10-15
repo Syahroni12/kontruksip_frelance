@@ -83,8 +83,12 @@
                             <p> Deskripsi: {{ $silver->deskripsi }}</p>
 
                             <p> Lama Hari :  {{ $silver->lama_hari }}</p>
-                            <p>{{ number_format($silver->harga) }}</p>
-                            <a href="{{ route('checkout', $silver->id) }}" class="btn btn-primary w-100">Continue</a>
+                            <p> Harga :{{ number_format($silver->harga) }}</p>
+                            <p> Biaya Admin :{{ number_format($biaya_admin) }}</p>
+                            <p> Biaya penanganan :{{ number_format($silver->harga * 0.10) }}</p>
+                            <p> Total Harga :{{ number_format($silver->harga + $biaya_admin + $silver->harga * 0.10) }}</p>
+
+                            <a href="{{ route('checkout', $silver->id) }}" class="btn btn-primary w-100">beli</a>
                         </div>
 
                         <!-- Tab gold -->
@@ -93,8 +97,12 @@
                             <p> Deskripsi: {{ $gold->deskripsi }}</p>
 
                             <p> Lama Hari :  {{ $gold->lama_hari }}</p>
-                            <p>{{ number_format($gold->harga) }}</p>
-                            <a href="{{ route('checkout', $gold->id) }}" class="btn btn-primary w-100">Continue</a>
+
+                            <p>Harga : {{ number_format($gold->harga) }}</p>
+                            <p> Biaya Admin :{{ number_format($biaya_admin) }}</p>
+                            <p> Biaya penanganan :{{ number_format($gold->harga * 0.10) }}</p>
+                            <p> Total Harga :{{ number_format($gold->harga + $biaya_admin + $gold->harga * 0.10) }}</p>
+                            <a href="{{ route('checkout', $gold->id) }}" class="btn btn-primary w-100">beli</a>
                         </div>
 
                         <!-- Tab diamond -->
@@ -103,8 +111,11 @@
                             <p> Deskripsi: {{ $diamond->deskripsi }}</p>
 
                             <p> Lama Hari :  {{ $diamond->lama_hari }}</p>
-                            <p>{{ number_format($diamond->harga) }}</p>
-                            <a href="{{ route('checkout', $diamond->id) }}" class="btn btn-primary w-100">Continue</a>
+                            <p>Harga :{{ number_format($diamond->harga) }}</p>
+                            <p> Biaya Admin :{{ number_format($biaya_admin) }}</p>
+                            <p> Biaya penanganan :{{ number_format($diamond->harga * 0.10) }}</p>
+                            <p> Total Harga :{{ number_format($diamond->harga + $biaya_admin + $diamond->harga * 0.10) }}</p>
+                            <a href="{{ route('checkout', $diamond->id) }}" class="btn btn-primary w-100">beli</a>
                         </div>
                     </div>
                 </div>

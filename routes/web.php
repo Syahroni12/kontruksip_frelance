@@ -38,6 +38,7 @@ Route::post('/tambah_produkact', [App\Http\Controllers\PenyediaJasaController::c
 Route::get('/hapus_produk/{id_produk}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_produk'])->name('hapus_produk')->middleware('auth');
 Route::get('/hapus_sertifikat/{id}', [App\Http\Controllers\PenyediaJasaController::class, 'hapus_sertifikat'])->name('hapus_sertifikat')->middleware('auth');
 Route::post('/tambah_sertifikat', [App\Http\Controllers\PenyediaJasaController::class, 'tambah_sertifikat'])->name('tambah_sertifikat')->middleware('auth');
+Route::get('/bukatutup', [App\Http\Controllers\PenyediaJasaController::class, 'bukatutup'])->name('bukatutup');
 
 
 Route::get('/home_customer', [App\Http\Controllers\CustomerController::class, 'index'])->name('home_customer')->middleware('auth');
@@ -46,7 +47,10 @@ Route::get('/cus_detailproduk/{id}', [App\Http\Controllers\CustomerController::c
 Route::get('/checkout/{id}', [App\Http\Controllers\CustomerController::class, 'checkout'])->name('checkout')->middleware('auth');
 Route::post('/checkout-success', [App\Http\Controllers\CustomerController::class, 'checkoutact'])->name('checkoutact')->middleware('auth');
 Route::get('/halaman_ratingsemua', [App\Http\Controllers\CustomerController::class, 'halaman_rating_semua'])->name('halaman_rating_semua')->middleware('auth');
+Route::get('/belum_konfirmasi', [App\Http\Controllers\CustomerController::class, 'belum_konfirmasi'])->name('belum_konfirmasi')->middleware('auth');
 Route::post('/rating', [App\Http\Controllers\CustomerController::class, 'ratingact'])->name('ratingact')->middleware('auth');
+Route::get('/belum_konfirmasii', [App\Http\Controllers\PenyediaJasaController::class, 'belum_konfirmasii'])->name('belum_konfirmasii')->middleware('auth');
+Route::post('/konfirmasi', [App\Http\Controllers\PenyediaJasaController::class, 'konfirmasi'])->name('konfirmasi')->middleware('auth');
 
 
 
@@ -69,7 +73,14 @@ Route::post('/customer_updateee', [App\Http\Controllers\CustomerAdminController:
 Route::delete('/customer/{id}', [App\Http\Controllers\CustomerAdminController::class, 'destroy'])->name('customer.destroy')->middleware('auth');
 
 Route::get('/transaksi', [App\Http\Controllers\DashboardAdminController::class, 'index'])->name('show_transaksi_admin')->middleware('auth');
+Route::get('/halamanchatcustomer', [App\Http\Controllers\ChatsController::class, 'halamanchatcustomer'])->name('halamanchatcustomer')->middleware('auth');
 
 Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
 Route::get('auth/google', [App\Http\Controllers\LoginAdminController::class, 'redirectToGoogle']);
 Route::get('auth/callback/google', [App\Http\Controllers\LoginAdminController::class, 'handleGoogleCallback']);
+
+Route::get('/chat_customersemua', [App\Http\Controllers\CustomerController::class, 'chat_semua'])->name('show_transaksi_admin')->middleware('auth');
+
+// Route::get('/chat', function() {
+//     // return view('customer.chat_customer');
+// });

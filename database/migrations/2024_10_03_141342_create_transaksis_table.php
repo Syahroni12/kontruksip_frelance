@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('id_pengguna')->references('id')->on('penggunas')->onDelete('set null');
 
             // $table->unsignedBigInteger('id_paketproduk')->nullable();
-            $table->foreign('id_paketproduk')->references('id')->on('paket_produks')->onDelete('set null');
+            // $table->foreign('id_paketproduk')->references('id')->on('paket_produks')->onDelete('set null');
 
             $table->date("tgl_awal");
             $table->date("tgl_akhir");
@@ -38,11 +38,11 @@ return new class extends Migration
             //     'LinkAja'
             // ]);
 
-            $table->string("metode");
+            $table->string("metode")->nullable();
             $table->string("snap_token")->nullable();
 
 
-            $table->enum("status", ["Sudah bayar", "Sedang konsultasi", "Selesai", "Dibatalkan"]);
+            $table->enum("status", ["Belum dikonfirmasi","Dikonfirmasi", "Sedang konsultasi", "Selesai", "Dibatalkan"]);
 
             $table->timestamps();
         });

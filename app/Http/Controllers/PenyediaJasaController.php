@@ -7,6 +7,8 @@ use App\Models\PaketProduk;
 use App\Models\Pengguna;
 use App\Models\Produk;
 use App\Models\sertifikat;
+use App\Models\Transaksi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -238,5 +240,57 @@ class PenyediaJasaController extends Controller
         $data->save();
         Alert::success('Success', 'Data Sertifikat berhasil di tambah')->flash();
         return redirect()->route('profile');
+    }
+
+    public function bukatutup()
+    {
+        $pengguna = Pengguna::where('id_user', auth()->user()->id)->first();
+        $status = auth()->user()->pengguna->status_toko;
+        if ($status == "buka") {
+
+            $pengguna->status_toko = "tutup";
+            $pengguna->save();
+            Alert::success('Success', 'Toko Berhasil di tutup')->flash();
+            return redirect()->route('home_penyediajasa');
+        } else {
+
+            $pengguna->status_toko = "buka";
+            $pengguna->save();
+            Alert::success('Success', 'Toko Berhasil di buka')->flash();
+            return redirect()->route('home_penyediajasa');
+        }
+    }
+
+    public function belum_konfirmasii()
+    {
+
+        $penggunaId = auth()->user()->pengguna->id;
+        $transaksis = Transaksi::with('Detail_transaksi') // Pastikan penamaan relasi konsisten
+            // ->where('id_pengguna', $penggunaId)
+            ->where('status', 'Belum dikonfirmasi') // Filter berdasarkan status
+            ->whereHas('Detail_transaksi', function ($query) use ($penggunaId) {
+                $query->where('id_owner', $penggunaId); // Memastikan id_owner sama dengan pengguna yang login
+            })
+            ->paginate(10);
+
+        return view('penyediajasa.belum_konfirmasi', compact('transaksis'));
+    }
+
+    public function konfirmasi(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            // 'id' => 'required|exists:transaksis,id',
+            'status'=>'required|in:Dibatalkan,Dikonfirmasi',
+        ]);
+        if ($validator->fails()) {
+            $messages = $validator->errors()->all();
+            Alert::error($messages)->flash();
+            return back()->withErrors($validator)->withInput();
+        }
+        $data = Transaksi::find($request->id);
+        $data->status = $request->status;
+        $data->save();
+        Alert::success('Success', 'Konfirmasi Berhasil')->flash();
+        return redirect()->route('home_penyediajasa');
     }
 }

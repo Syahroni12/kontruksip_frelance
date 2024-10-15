@@ -12,6 +12,9 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
+    {{-- icon --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('template_user/css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('template_user/css/font-awesome.min.css') }}" type="text/css">
