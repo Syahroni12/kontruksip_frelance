@@ -216,7 +216,7 @@
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li> --}}
-                            <li><a href="./blog.html">Blog</a></li>
+                            <li class="@if (Route::currentRouteName() == 'chat_semuacus') active @endif"><a href="{{ route('chat_semuacus') }}">Chat</a></li>
 
                             <li class="@if (Route::currentRouteName() == 'profile') active @endif">
                                 <a href="{{ route('profile') }}" class="text-decoration-none">

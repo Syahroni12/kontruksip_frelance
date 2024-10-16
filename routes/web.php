@@ -78,8 +78,11 @@ Route::get('/halamanchatcustomer', [App\Http\Controllers\ChatsController::class,
 Route::post('loginn_admin', [App\Http\Controllers\AuthController::class, 'loginAdmin'])->name('loginn_admin');
 Route::get('auth/google', [App\Http\Controllers\LoginAdminController::class, 'redirectToGoogle']);
 Route::get('auth/callback/google', [App\Http\Controllers\LoginAdminController::class, 'handleGoogleCallback']);
+// chat
+Route::get('/chat_customersemua', [App\Http\Controllers\CustomerController::class, 'chat_semuacus'])->name('chat_semuacus')->middleware('auth');
+Route::get('/chat_cuspertr/{id}', [App\Http\Controllers\CustomerController::class, 'chat_percust'])->name('chat_percust')->middleware('auth');
+Route::post('/chat_actcus', [App\Http\Controllers\CustomerController::class, 'chat_actcus'])->name('chat_actcus')->middleware('auth');
 
-Route::get('/chat_customersemua', [App\Http\Controllers\CustomerController::class, 'chat_semua'])->name('show_transaksi_admin')->middleware('auth');
 
 // Route::get('/chat', function() {
 //     // return view('customer.chat_customer');

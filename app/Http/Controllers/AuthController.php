@@ -296,6 +296,7 @@ class AuthController extends Controller
                 if (Auth::user()->akses == 'penyedia_jasa') {
                     // dd(Auth::user()->akses);
                     if (Auth::user()->status == 'aman') {
+                        User::where('id', Auth::user()->id)->update(['status_login' => true]);
                         Alert::success('Success', 'Login Berhasil di lakukan')->flash();
                         return redirect()->route('home_penyediajasa');
                     } elseif (Auth::user()->status == 'blokir') {
@@ -334,6 +335,8 @@ class AuthController extends Controller
                         return back()->withInput();
                     }
                 } elseif (Auth::user()->akses == 'customer') {
+
+                    User::where('id', Auth::user()->id)->update(['status_login' => true]);
                     Alert::success('success', 'Berhasil login')->flash();
                     // dd("sddsdsd");
                     return redirect()->route('home_customer');
@@ -366,7 +369,7 @@ class AuthController extends Controller
             return view('customer.profile_customer', compact('data'));
             # code...
         } else {
-            return view('penyediajasa.profile_penyediajasa', compact('data', 'keahlian','sertifikat'));
+            return view('penyediajasa.profile_penyediajasa', compact('data', 'keahlian', 'sertifikat'));
         }
     }
 
@@ -437,6 +440,10 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         //fungsi logout
+
+        User::where('id', auth()->user()->id)->update([
+            'status_login' => false,
+        ]);
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

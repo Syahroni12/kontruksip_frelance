@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             // $table->string('name');
             $table->string('email')->unique();
+            $table->boolean('status_login')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('akses',["admin","customer","penyedia_jasa","customer_penyediajasa"]);
             $table->enum('status',["aman","blokir", "sedang_verifikasi"]);
