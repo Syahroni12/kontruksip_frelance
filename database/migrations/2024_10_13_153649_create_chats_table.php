@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_transaksi')->nullable();
             $table->foreign('id_transaksi')->references('id')->on('transaksis')->onDelete('set null');
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('penggunas')->onDelete('set null');
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('penggunas')->onDelete('set null');
-            $table->text('message');
+            $table->unsignedBigInteger('id_pengirim')->nullable();
+            $table->foreign('id_pengirim')->references('id')->on('penggunas')->onDelete('set null');
+
+            $table->text('message')->nullable();
             // Isi pesan
             $table->string('file')->nullable(); // Type pesan (text, image, audio, video
             $table->boolean('is_read')->default(false); // Status pesan (dibaca atau belum)
             $table->timestamp('read_at')->nullable();
+            $table->boolean('is_send')->default(false); // Status pesan (terkirim atau belum)
+            $table->timestamp('send_at')->nullable();
             $table->timestamps();
         });
     }

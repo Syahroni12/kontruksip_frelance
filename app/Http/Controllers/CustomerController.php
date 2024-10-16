@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\detail_transaksi;
 use App\Models\DetailTransaksi;
 use App\Models\KategoriJasa;
@@ -34,8 +35,12 @@ class CustomerController extends Controller
                         $queryKategori->where('nama', 'like', '%' . $request->search . '%'); // Pencarian berdasarkan nama kategori
                     });
             })
+            ->whereHas('pengguna', function ($queryPengguna) {
+                $queryPengguna->where('status_toko', 'buka'); // Menampilkan produk dengan status toko 'buka'
+            })
             ->where('id_pengguna', '!=', $id_pengguna) // Menampilkan produk yang tidak dimiliki oleh pengguna yang login
             ->paginate(30);
+
 
         // dump($data);
         // return view('penyediajasa.produk', compact('data'));
@@ -53,6 +58,9 @@ class CustomerController extends Controller
                     ->orWhereHas('kategori', function ($queryKategori) use ($request) {
                         $queryKategori->where('nama', 'like', '%' . $request->search . '%'); // Pencarian berdasarkan nama kategori
                     });
+            })
+            ->whereHas('pengguna', function ($queryPengguna) {
+                $queryPengguna->where('status_toko', 'buka'); // Menampilkan produk dengan status toko 'buka'
             })
             ->where('id_pengguna', '!=', $id_pengguna) // Menampilkan produk yang tidak dimiliki oleh pengguna yang login
             ->where('id_kategori', '==', $id) // Menampilkan produk yang tidak dimiliki oleh pengguna yang login
@@ -396,5 +404,105 @@ class CustomerController extends Controller
         $data->save();
         Alert::success('Success', 'Berhasil raiting data')->flash();
         return redirect()->route('halaman_ratingsemua');
+    }
+
+
+
+    public function chat_semuacus()
+    {
+        $penggunaId = auth()->user()->pengguna->id; // Mengambil id pengguna yang sedang login
+        $transaksis = Transaksi::with(['Detail_transaksi', 'chat' => function ($query) {
+            $query->latest()->take(1); // Mengambil chat terbaru
+        }])
+            ->where('id_pengguna', $penggunaId)
+            ->where('status', 'Sedang konsultasi')
+            // ->whereDoesntHave('rating') // Menampilkan transaksi yang tidak memiliki rating
+            ->get();
+
+        // dump($transaksis);
+        // dd($transaksis);
+        return view('customer.chat_customer', compact('transaksis'));
+    }
+    public function chat_percust($id)
+    {
+        $penggunaId = auth()->user()->pengguna->id; // Mengambil id pengguna yang sedang login
+        $transaksis = Transaksi::with(['Detail_transaksi', 'chat' => function ($query) {
+            $query->latest()->take(1); // Mengambil chat terbaru
+        }])
+            ->where('id_pengguna', $penggunaId)
+            // ->where('id', $id)
+            ->where('status', 'Sedang konsultasi')
+            // ->whereDoesntHave('rating') // Menampilkan transaksi yang tidak memiliki rating
+            ->get();
+        $tran = Transaksi::with(['Detail_transaksi', 'chat'])->where('id', $id)->first();
+
+
+        $chat = Chat::where('id_transaksi', $id)->get();
+
+        Chat::where('id_transaksi', $id)
+            ->where('owner_id', '!=', null) // Cek apakah ini untuk customer yang sedang login
+            ->where('is_read', false) // Hanya update pesan yang belum dibaca
+            ->update([
+                'is_read' => true,
+                'read_at' => now(), // Waktu dibaca
+            ]);
+        return view('customer.chat_customerpertr', compact('transaksis', 'chat', 'id', 'tran'));
+    }
+    public function chat_actcus(Request $request)
+    {
+
+        $chat = new Chat();
+        if (($request->file('gambar')==null)==($request->pesan == null)) {
+            Alert::error('Error', 'Pesan atau gambar tidak boleh kosong')->flash();
+            return back();
+        }
+
+
+        // $validatedData =  Validator::make($request->all(), [
+
+        //     'id_transaksi' => 'required|exists:transaksis,id',
+        //     'pesan' => 'required',
+        // ]);
+        // if ($validatedData->fails()) {
+        //     $messages = $validatedData->errors()->all();
+        //     Alert::error($messages)->flash();
+        //     return back()->withErrors($validatedData)->withInput();
+        // }
+
+
+
+        if ($request->hasFile('gambar')) {
+
+            $file = $request->file('gambar');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/chat'), $fileName);
+            $chat->file = $fileName;
+            # code...
+        }
+        $send = 0;
+        $transaksi = Transaksi::with('Detail_transaksi')->where('id', $request->id_transaksi)->first();
+        if ($transaksi->Detail_transaksi->owner->user->status_login == true) {
+            $chat->is_send = true;
+            $chat->send_at = now();
+        } else {
+            # code...
+            $chat->is_send = false;
+            $chat->send_at = null;
+        }
+        $chat->id_transaksi = $request->id_transaksi;
+        $chat->message = $request->pesan;
+
+
+
+        $chat->id_pengirim = auth()->user()->pengguna->id;
+
+        $chat->save();
+        return back();
+        // $chat = new Chat();
+        // $chat->id_transaksi = $request->id_transaksi;
+        // $chat->pesan = $request->pesan;
+        // $chat->owner_id = auth()->user()->pengguna->id;
+        // $chat->save();
+        // return back();
     }
 }

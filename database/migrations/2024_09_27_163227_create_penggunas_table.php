@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->unsignedBigInteger('saldo')->default(0);
+
             $table->enum('status_toko', ['buka', 'tutup'])->default('buka');
             $table->string('notelp');
             $table->enum('gender', ['Laki-laki', 'Perempuan']);

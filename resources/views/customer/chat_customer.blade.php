@@ -1,24 +1,46 @@
 @extends('penyediajasa.index')
 
 @section('konten')
-<link rel="stylesheet" href="{{ asset('template_user/css/custom-css/chat.css') }}" type="text/css">
-   <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4 col-sm-12 wrapper-left">
-            <div class="py-3 px-2">
-                <h2 class="text-center">Halaman Chat</h2>
-                <div class="d-flex align-items-center wrapper p-1 border-bottom">
-                    <img src="{{ asset('foto_profile/1727542586.png') }}" alt="" class="rounded-circle me-2" width="50" height="50" loading="lazy">
-                    <div class="w-100 p-2">
-                        <p class="text-dark fs-5 text-capitalize mb-0">peler(,mkdks)</p>
-                        {{-- <i class="bi bi-check2"></i> checklist 1 --}}
-                          <i class="bi bi-check2-all text-primary"></i> {{-- checklist 2 --}}
-                        <span class="text-secondary">transaksi bang</span>
-                    </div>
-                </div>
+    <link rel="stylesheet" href="{{ asset('template_user/css/custom-css/chat.css') }}" type="text/css">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-sm-12 wrapper-left">
+                <div class="py-3 px-2">
+                    <h2 class="text-center">Halaman Chat</h2>
+                    @foreach ($transaksis as $item)
+                        <div class="d-flex align-items-center wrapper p-1 border-bottom" onclick="pergi('{{ $item->id }}')">
+                            <img src="{{ asset('foto_profile/' . $item->Detail_transaksi->owner->foto) }}" alt=""
+                                class="rounded-circle me-2" width="50" height="50" loading="lazy">
+                            <div class="w-100 p-2">
+                                <p class="text-dark fs-5 text-capitalize mb-0">{{ $item->Detail_transaksi->owner->nama }}
+                                    ({{ $item->Detail_transaksi->produk }} :{{ $item->Detail_transaksi->paket }})
+                                </p>
+                                {{-- <i class="bi bi-check2"></i> checklist 1 --}}
+                                {{-- <i class="bi bi-check2-all text-primary"></i> checklist 2 --}}
+                                @if ($item->chat->first())
 
+
+                                @if ($item->chat->first()->customer_id == null)
+                                    @if ($item->chat->first()->is_read == 0)
+                                        <i class="bi bi-check2"></i> <span class="text-secondary">item bang</span>
+                                    @else
+                                        <i class="bi bi-check2-all text-primary"></i>  <span class="text-secondary">item bang</span>
+                                    @endif
+                                @else
+
+                                    @if ($item->chat->first()->is_read == 0)
+                                        <i class="bi bi-check2"></i> <span class="text-secondary">item bang</span>
+                                    @else
+                                        <i class="bi bi-check2-all text-primary"></i>  <span class="text-secondary">item bang</span>
+                                    @endif
+                                @endif
+                                @endif
+                                {{-- <span class="text-secondary">transaksi bang</span> --}}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
             <div class="col-md-8 col-sm-12 wrapper-right ">
                 {{-- <div class="wrap-right d-flex align-items-center ps-3 py-2">
                     <button class="btn btn-link btn-back d-none" onclick="goBack()"><i class="bi bi-arrow-left text-dark"></i></button>
@@ -107,8 +129,13 @@
                     </div>
                 </form> --}}
             </div>
+        </div>
     </div>
-   </div>
 
-   <script src="{{ 'template_user/js/custom-js/chat.js' }}"></script>
+    <script src="{{ 'template_user/js/custom-js/chat.js' }}"></script>
+    <script>
+        function pergi(id) {
+            window.location.href = `/chat_cuspertr/${id}`;
+        }
+    </script>
 @endsection
